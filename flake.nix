@@ -25,6 +25,7 @@
 
     latex-utils = {
       url = "github:jmmaloney4/latex-utils";
+      # url = "/Users/jack/git/github.com/jmmaloney4/latex-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -51,6 +52,15 @@
         mission-control.flakeModule
         pre-commit-hooks.flakeModule
         treefmt.flakeModule
+        inputs.latex-utils.modules.latex-utils
+      ];
+
+      latex-utils.documents = [
+        {
+          name = "eqi-notes.pdf";
+          src = ./.;
+          inputFile = "main.tex";
+        }
       ];
 
       perSystem = {
@@ -62,15 +72,6 @@
         lib,
         ...
       }: {
-        packages = {
-          default = inputs'.latex-utils.lib.mkLatexPdfDocument {
-            inherit pkgs lib;
-            name = "eqi-notes.pdf";
-            src = ./.;
-            inputFile = "main.tex";
-          };
-        };
-
         devShells.default = pkgs.mkShell {
           inputsFrom = [
             config.mission-control.devShell

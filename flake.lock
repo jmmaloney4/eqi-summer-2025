@@ -34,6 +34,24 @@
         "type": "github"
       }
     },
+    "flake-parts_2": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1743550720,
+        "narHash": "sha256-hIshGgKZCgWh6AYJpJmRgFdR3WUbkY04o82X05xqQiY=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "c621e8422220273271f52058f618c94e405bb0f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-root": {
       "locked": {
         "lastModified": 1723604017,
@@ -46,21 +64,6 @@
       "original": {
         "owner": "srid",
         "repo": "flake-root",
-        "type": "github"
-      }
-    },
-    "flake-utils": {
-      "locked": {
-        "lastModified": 1676283394,
-        "narHash": "sha256-XX2f9c3iySLCw54rJ/CZs+ZK6IQy7GXNY4nSOyu2QG4=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3db36a8b464d0c4532ba1c7dda728f4576d6d073",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
         "type": "github"
       }
     },
@@ -87,23 +90,23 @@
     },
     "latex-utils": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-parts": "flake-parts_2",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1745301967,
-        "narHash": "sha256-p/+VC07FHNNq7+YbpNiK99GRanEnqOiKo8CBliDlEfM=",
-        "owner": "jmmaloney4",
-        "repo": "latex-utils",
-        "rev": "c0c7e79d1f9ea88eec54f653142d5a81038f5bee",
-        "type": "github"
+        "lastModified": 1748374047,
+        "narHash": "sha256-EbKQEL7Di2+ZpIV1s0i3XNgP+n1o3f7jdooHtP0MM/E=",
+        "ref": "refs/heads/flake-parts",
+        "rev": "d7d26447a4b74a7a2bba938150e624c9ec59384a",
+        "revCount": 49,
+        "type": "git",
+        "url": "file:///Users/jack/git/github.com/jmmaloney4/latex-utils"
       },
       "original": {
-        "owner": "jmmaloney4",
-        "repo": "latex-utils",
-        "type": "github"
+        "type": "git",
+        "url": "file:///Users/jack/git/github.com/jmmaloney4/latex-utils"
       }
     },
     "mission-control": {
@@ -138,6 +141,21 @@
       }
     },
     "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1743296961,
+        "narHash": "sha256-b1EdN3cULCqtorQ4QeWgLMrd5ZGOjLSLemfa00heasc=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "e4822aea2a6d1cdd36653c134cacfd64c97ff4fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib_2": {
       "locked": {
         "lastModified": 1743296961,
         "narHash": "sha256-b1EdN3cULCqtorQ4QeWgLMrd5ZGOjLSLemfa00heasc=",
