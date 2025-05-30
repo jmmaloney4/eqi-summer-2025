@@ -45,7 +45,11 @@
 
 \maketitle
 
-\section{Probability Spaces and Measurable Functions}
+\section{Mathematical Prerequisites}
+
+\subsection{Probability Spaces and Measurable Functions}
+
+We first introduce the basic machinery of probability theory.
 
 \begin{definition}
 A \emph{probability space} is a triple $(\Omega, \mathcal{F}, P)$ where $\Omega$ is a set, $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$, and $P: \mathcal{F} \to [0,1]$ is a probability measure with $P(\Omega) = 1$.
@@ -55,16 +59,32 @@ A \emph{probability space} is a triple $(\Omega, \mathcal{F}, P)$ where $\Omega$
 A \emph{random variable} is a measurable function $X: (\Omega, \mathcal{F}) \to (\mathbb{R}, \mathcal{B}(\mathbb{R}))$, where $\mathcal{B}(\mathbb{R})$ denotes the Borel $\sigma$-algebra on $\mathbb{R}$.
 \end{definition}
 
-\begin{remark}
-This abstract formulation highlights the seamless extension of measure-theoretic integration to random variables, setting the stage for advanced probabilistic and functional-analytic constructions.
-\end{remark}
+While the domain of the random variable is the physical measure space, there is not much we can say directly about they physical measure space, and so it is generally much easier to work in the setting of the real numbers.
+
+\begin{definition}
+The \emph{distribution} of a random variable \(X\) is a measure defined on the real numbers, the pushforward of the physical measure \(P\) by \(X\),
+\[
+X_{*}P (E) := P \left( X^{-1}(E) \right)
+\]
+for \(E \in \mathcal{B}(\mathbb{R})\).
+\end{definition}
+
+
+
+Most random variables encountered in the theory have the additional nice property of having a partial distribution function.
+
+\begin{definition}
+If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{partial distribution} function (unique up to Lebesgue-null sets) \(\mu_{X} = \frac{d X_{*}P}{d\lambda}\), the Radon-Nikodym derivative of the distribution with respect to Lebesgue measure.
+\end{definition}
 
 \section{Integration and Expectation}
 
 \begin{definition}
-For an integrable random variable $X$, its \emph{expectation} (or \emph{mean}) is defined as the Lebesgue integral
+For a random variable $X$, its \emph{expectation} (or \emph{mean}) is defined as the Lebesgue integral
 \[
-\mathbb{E}[X] := \int_\Omega X(\omega) \, dP(\omega),
+\mathbb{E}[X] 
+:= \int_\Omega X(\omega) \, dP(\omega)
+= \int_{\mathbb{R}} x dX_*P
 \]
 provided the integral exists in the extended real line.
 \end{definition}
