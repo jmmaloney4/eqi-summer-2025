@@ -60,6 +60,7 @@
           name = "eqi-notes.pdf";
           src = ./.;
           inputFile = "main.tex";
+          extraTexPackages = ["collection-fontsextra" "latex-fonts"];
         }
       ];
 
@@ -74,14 +75,13 @@
       }: {
         devShells.default = pkgs.mkShell {
           inputsFrom = [
+            self'.packages.default
+
             config.mission-control.devShell
             config.pre-commit.devShell
             config.treefmt.build.devShell
           ];
           buildInputs = with pkgs; [
-            fluxcd
-            kubectl
-            sops
           ];
         };
 
