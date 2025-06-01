@@ -57,21 +57,21 @@
 We first introduce the basic machinery of probability theory.
 
 \begin{definition}
-A \emph{probability space} is a triple $(\Omega, \mathcal{F}, P)$ where $\Omega$ is a set, $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$, and $P: \mathcal{F} \to [0,1]$ is a probability measure with $P(\Omega) = 1$.
+	A \emph{probability space} is a triple $(\Omega, \mathcal{F}, P)$ where $\Omega$ is a set, $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$, and $P: \mathcal{F} \to [0,1]$ is a probability measure with $P(\Omega) = 1$.
 \end{definition}
 
 \begin{definition}
-A \emph{random variable} is a measurable function $X: (\Omega, \mathcal{F}) \to (\mathbb{R}, \mathcal{B}(\mathbb{R}))$, where $\mathcal{B}(\mathbb{R})$ denotes the Borel $\sigma$-algebra on $\mathbb{R}$.
+	A \emph{random variable} is a measurable function $X: (\Omega, \mathcal{F}) \to (\mathbb{R}, \mathcal{B}(\mathbb{R}))$, where $\mathcal{B}(\mathbb{R})$ denotes the Borel $\sigma$-algebra on $\mathbb{R}$.
 \end{definition}
 
 While the domain of the random variable is the physical measure space, there is not much we can say directly about they physical measure space, and so it is generally much easier to work in the setting of the real numbers.
 
 \begin{definition}
-The \emph{distribution} of a random variable \(X\) is a measure defined on the real numbers, the pushforward of the physical measure \(P\) by \(X\),
-\[
-X_{*}P (E) := P \left( X^{-1}(E) \right)
-\]
-for \(E \in \mathcal{B}(\mathbb{R})\).
+	The \emph{distribution} of a random variable \(X\) is a measure defined on the real numbers, the pushforward of the physical measure \(P\) by \(X\),
+	\[
+		X_{*}P (E) := P \left( X^{-1}(E) \right)
+	\]
+	for \(E \in \mathcal{B}(\mathbb{R})\).
 \end{definition}
 
 
@@ -79,129 +79,129 @@ for \(E \in \mathcal{B}(\mathbb{R})\).
 Most random variables encountered in the theory have the additional nice property of having a partial distribution function.
 
 \begin{definition}
-If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{partial distribution} function (unique up to Lebesgue-null sets) \(\mu_{X} = \frac{d X_{*}P}{d\lambda}\), the Radon-Nikodym derivative of the distribution with respect to Lebesgue measure.
+	If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{partial distribution} function (unique up to Lebesgue-null sets) \(\mu_{X} = \frac{d X_{*}P}{d\lambda}\), the Radon-Nikodym derivative of the distribution with respect to Lebesgue measure.
 \end{definition}
 
 \section{Integration and Expectation}
 
 \begin{definition}
-For a random variable $X$, its \emph{expectation} (or \emph{mean}) is defined as the Lebesgue integral
-\[
-\mathbb{E}[X] 
-:= \int_\Omega X(\omega) \, dP(\omega)
-= \int_{\mathbb{R}} x dX_*P
-\]
-provided the integral exists in the extended real line.
+	For a random variable $X$, its \emph{expectation} (or \emph{mean}) is defined as the Lebesgue integral
+	\[
+		\mathbb{E}[X]
+		:= \int_\Omega X(\omega) \, dP(\omega)
+		= \int_{\mathbb{R}} x dX_*P
+	\]
+	provided the integral exists in the extended real line.
 \end{definition}
 
 \begin{definition}
-Let $\mathcal{G} \subseteq \mathcal{F}$ be a sub-$\sigma$-algebra. The \emph{conditional expectation} of $X$ given $\mathcal{G}$, denoted $\mathbb{E}[X|\mathcal{G}]$, is the unique (up to almost sure equality) $\mathcal{G}$-measurable function satisfying
-\[
-\int_G \mathbb{E}[X|\mathcal{G}] \, dP = \int_G X \, dP, \quad \forall G \in \mathcal{G}.
-\]
+	Let $\mathcal{G} \subseteq \mathcal{F}$ be a sub-$\sigma$-algebra. The \emph{conditional expectation} of $X$ given $\mathcal{G}$, denoted $\mathbb{E}[X|\mathcal{G}]$, is the unique (up to almost sure equality) $\mathcal{G}$-measurable function satisfying
+	\[
+		\int_G \mathbb{E}[X|\mathcal{G}] \, dP = \int_G X \, dP, \quad \forall G \in \mathcal{G}.
+	\]
 \end{definition}
 
 \begin{remark}
-In $L^2(\Omega, \mathcal{F}, P)$, $\mathbb{E}[X|\mathcal{G}]$ coincides with the orthogonal projection of $X$ onto the closed subspace of $\mathcal{G}$-measurable square-integrable random variables.
+	In $L^2(\Omega, \mathcal{F}, P)$, $\mathbb{E}[X|\mathcal{G}]$ coincides with the orthogonal projection of $X$ onto the closed subspace of $\mathcal{G}$-measurable square-integrable random variables.
 \end{remark}
 
 \section{\texorpdfstring{$L^p$}{Lp} Spaces and Equivalence Classes}
 
 \begin{definition}
-For $1 \leq p < \infty$, the space $L^p(\Omega, \mathcal{F}, P)$ consists of equivalence classes of measurable functions $X$ with finite $p$-th moment:
-\[
-\|X\|_p := \left( \int_\Omega |X|^p \, dP \right)^{1/p} < \infty.
-\]
+	For $1 \leq p < \infty$, the space $L^p(\Omega, \mathcal{F}, P)$ consists of equivalence classes of measurable functions $X$ with finite $p$-th moment:
+	\[
+		\|X\|_p := \left( \int_\Omega |X|^p \, dP \right)^{1/p} < \infty.
+	\]
 \end{definition}
 
 \begin{definition}
-Two random variables $X, Y$ are said to be \emph{equivalent} if $P(X \neq Y)=0$. Each element of $L^p$ is an equivalence class $[X]$ of almost surely equal functions.
+	Two random variables $X, Y$ are said to be \emph{equivalent} if $P(X \neq Y)=0$. Each element of $L^p$ is an equivalence class $[X]$ of almost surely equal functions.
 \end{definition}
 
 \begin{lemma}[Existence of Borel-Measurable Representatives]
-Let $X \in L^p(\Omega, \mathcal{F}, P)$. There exists a Borel-measurable representative $Y \in [X]$ that coincides with $X$ almost surely. However, no canonical representative exists in general.
+	Let $X \in L^p(\Omega, \mathcal{F}, P)$. There exists a Borel-measurable representative $Y \in [X]$ that coincides with $X$ almost surely. However, no canonical representative exists in general.
 \end{lemma}
 
 \begin{note}
-In applications, representatives with additional regularity, such as continuity or cadlag paths, are often chosen to facilitate analysis and computations.
+	In applications, representatives with additional regularity, such as continuity or cadlag paths, are often chosen to facilitate analysis and computations.
 \end{note}
 
 \begin{proposition}[Radon-Nikodym Derivative as Probability Density]
-Let $X$ be a random variable and let $P_X = X_*P$ denote its distribution. If $P_X \ll \lambda$ (the Lebesgue measure), then there exists a density function $f_X \in L^1(\mathbb{R})$ such that
-\[
-P_X(B) = \int_B f_X(x) \, dx, \quad \forall B \in \mathcal{B}(\mathbb{R}).
-\]
-This $f_X = \frac{dP_X}{d\lambda}$ is the \emph{probability density function} (pdf) of $X$.
+	Let $X$ be a random variable and let $P_X = X_*P$ denote its distribution. If $P_X \ll \lambda$ (the Lebesgue measure), then there exists a density function $f_X \in L^1(\mathbb{R})$ such that
+	\[
+		P_X(B) = \int_B f_X(x) \, dx, \quad \forall B \in \mathcal{B}(\mathbb{R}).
+	\]
+	This $f_X = \frac{dP_X}{d\lambda}$ is the \emph{probability density function} (pdf) of $X$.
 \end{proposition}
 
 \section{Inner Product Structure and Covariance}
 
 \begin{definition}
-The space $L^2(\Omega, \mathcal{F}, P)$ is a Hilbert space with inner product
-\[
-\langle X, Y \rangle := \int_\Omega X Y \, dP.
-\]
+	The space $L^2(\Omega, \mathcal{F}, P)$ is a Hilbert space with inner product
+	\[
+		\langle X, Y \rangle := \int_\Omega X Y \, dP.
+	\]
 \end{definition}
 
 \begin{definition}
-For centered random variables (i.e., $\mathbb{E}[X]=0$), the \emph{covariance} is
-\[
-\operatorname{Cov}(X, Y) = \langle X, Y \rangle.
-\]
+	For centered random variables (i.e., $\mathbb{E}[X]=0$), the \emph{covariance} is
+	\[
+		\operatorname{Cov}(X, Y) = \langle X, Y \rangle.
+	\]
 \end{definition}
 
 \section{Moments and Generating Functions}
 
 \begin{definition}
-The \emph{$n$-th moment} of a random variable $X$ is $\mathbb{E}[X^n]$, provided the expectation exists.
+	The \emph{$n$-th moment} of a random variable $X$ is $\mathbb{E}[X^n]$, provided the expectation exists.
 \end{definition}
 
 \begin{theorem}[Hölder's Inequality]
-Let $1 \leq p, q \leq \infty$ with $\frac{1}{p} + \frac{1}{q} = 1$. Then
-\[
-|\mathbb{E}[XY]| \leq \|X\|_p \|Y\|_q.
-\]
+	Let $1 \leq p, q \leq \infty$ with $\frac{1}{p} + \frac{1}{q} = 1$. Then
+	\[
+		|\mathbb{E}[XY]| \leq \|X\|_p \|Y\|_q.
+	\]
 \end{theorem}
 
 \begin{definition}
-The \emph{moment generating function} (MGF) of $X$, if it exists in a neighborhood of zero, is
-\[
-M_X(t) := \mathbb{E}[e^{tX}].
-\]
+	The \emph{moment generating function} (MGF) of $X$, if it exists in a neighborhood of zero, is
+	\[
+		M_X(t) := \mathbb{E}[e^{tX}].
+	\]
 \end{definition}
 
 \section{Modes of Convergence}
 
 \begin{definition}
-Let $\{X_n\}$ be a sequence of random variables. We distinguish several modes of convergence:
-\begin{enumerate}[label=(\roman*)]
-\item \emph{Almost sure convergence}: $X_n(\omega) \to X(\omega)$ for $P$-almost all $\omega$.
-\item \emph{Convergence in probability}: $\forall \varepsilon>0$, $P(|X_n - X| > \varepsilon) \to 0$.
-\item \emph{$L^p$ convergence}: $\|X_n - X\|_p \to 0$.
-\item \emph{Convergence in distribution}: $P_{X_n} \to P_X$ weakly.
-\end{enumerate}
+	Let $\{X_n\}$ be a sequence of random variables. We distinguish several modes of convergence:
+	\begin{enumerate}[label=(\roman*)]
+		\item \emph{Almost sure convergence}: $X_n(\omega) \to X(\omega)$ for $P$-almost all $\omega$.
+		\item \emph{Convergence in probability}: $\forall \varepsilon>0$, $P(|X_n - X| > \varepsilon) \to 0$.
+		\item \emph{$L^p$ convergence}: $\|X_n - X\|_p \to 0$.
+		\item \emph{Convergence in distribution}: $P_{X_n} \to P_X$ weakly.
+	\end{enumerate}
 \end{definition}
 
 \begin{theorem}[Prokhorov's Theorem]
-A family of probability measures on a Polish space is tight if and only if it is relatively compact in the topology of weak convergence.
+	A family of probability measures on a Polish space is tight if and only if it is relatively compact in the topology of weak convergence.
 \end{theorem}
 
 \begin{theorem}[Skorokhod's Representation Theorem]
-Let $P_{X_n} \to P_X$ weakly. Then there exist random variables $\{\tilde{X}_n\}$ and $\tilde{X}$ on a common probability space such that $\tilde{X}_n \xrightarrow{a.s.} \tilde{X}$ and $\tilde{X}_n$ has the same distribution as $X_n$ for each $n$.
+	Let $P_{X_n} \to P_X$ weakly. Then there exist random variables $\{\tilde{X}_n\}$ and $\tilde{X}$ on a common probability space such that $\tilde{X}_n \xrightarrow{a.s.} \tilde{X}$ and $\tilde{X}_n$ has the same distribution as $X_n$ for each $n$.
 \end{theorem}
 
 \section{Functional Analytic Perspectives}
 
 \begin{theorem}[Riesz Representation Theorem]
-Let $1 < p < \infty$. Every continuous linear functional on $L^p(\Omega, \mathcal{F}, P)$ is of the form
-\[
-\varphi(X) = \int_\Omega X Y \, dP
-\]
-for some $Y \in L^q(\Omega, \mathcal{F}, P)$ with $\frac{1}{p} + \frac{1}{q}=1$.
+	Let $1 < p < \infty$. Every continuous linear functional on $L^p(\Omega, \mathcal{F}, P)$ is of the form
+	\[
+		\varphi(X) = \int_\Omega X Y \, dP
+	\]
+	for some $Y \in L^q(\Omega, \mathcal{F}, P)$ with $\frac{1}{p} + \frac{1}{q}=1$.
 \end{theorem}
 
 \begin{remark}
-This perspective frames the expectation as a continuous linear functional and highlights the duality between $L^p$ and $L^q$ spaces.
+	This perspective frames the expectation as a continuous linear functional and highlights the duality between $L^p$ and $L^q$ spaces.
 \end{remark}
 
 
@@ -209,8 +209,8 @@ This perspective frames the expectation as a continuous linear functional and hi
 % REFERENCES
 \begin{thebibliography}{9}
 
-\bibitem{ref1}
-Author Name, \emph{Title of Paper}, Journal Name, vol. XX, pp. 1--10, 20XX.
+	\bibitem{ref1}
+	Author Name, \emph{Title of Paper}, Journal Name, vol. XX, pp. 1--10, 20XX.
 
 \end{thebibliography}
 

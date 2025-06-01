@@ -9,3 +9,4 @@ result
 *.fdb_latexmk
 *.synctex*
 *.pdf
+*.bak*

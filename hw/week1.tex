@@ -24,67 +24,69 @@
 % BEGIN DOCUMENT
 \begin{document}
 
+\newtheorem{proposition}{Proposition}
+
 \maketitle
 
 \section{Week 0 Recap (Kickoff: May 31)}
 \subsection*{Assigned Reading}
 \begin{itemize}[noitemsep,left=0pt]
-  \item \textbf{Chapter 2, Section 2.1:} "What Are Returns?"
-  \item \emph{Background Discussion Materials:}
-    \begin{itemize}[noitemsep,left=2em]
-      \item Stylized facts of equity returns (log returns vs.\ simple returns, lower bound at $-100\%$).
-      \item Brief overview of Kalman filtering for latent‐variable estimation.
-      \item Bid–ask spread and market‐maker liquidity concepts.
-    \end{itemize}
+	\item \textbf{Chapter 2, Section 2.1:} "What Are Returns?"
+	\item \emph{Background Discussion Materials:}
+	      \begin{itemize}[noitemsep,left=2em]
+		      \item Stylized facts of equity returns (log returns vs.\ simple returns, lower bound at $-100\%$).
+		      \item Brief overview of Kalman filtering for latent‐variable estimation.
+		      \item Bid–ask spread and market‐maker liquidity concepts.
+	      \end{itemize}
 \end{itemize}
 
 \subsection{Key Takeaways from Section 2.1}
 \begin{enumerate}[noitemsep,left=0pt]
-  \item \textbf{Definition of Returns:} \\
-  \textbf{Simple/Raw/Net Returns:}
-    \[
-      R_t \;=\; \frac{P_t - P_{t-1}}{P_{t-1}}, 
-    \]
-    \textbf{Log Returns:}
-    \[
-      r_t \;=\; \ln(1 + R_t) \;=\; \ln(P_t) - \ln(P_{t-1}).
-    \]
-    Log returns add under compounding and approximate simple returns for small magnitudes.
-  \item \textbf{Excess Return vs.\ Total Return:}  
-    Excess return is $R_t - R_{f,t}$, where $R_{f,t}$ is the risk‐free rate over period $t$. Performance metrics (Sharpe, $\alpha$) use excess returns.
-  \item \textbf{Stylized Facts of Equity Returns:}
-    \begin{itemize}[noitemsep,left=2em]
-      \item Returns exhibit \emph{volatility clustering} (conditional heteroskedasticity).
-      \item Distribution is \emph{leptokurtic}: heavier tails than Gaussian.
-      \item Autocorrelation of raw returns $\approx 0$; squared returns \( r_t^2 \) show persistence.
-    \end{itemize}
-  \item \textbf{Kalman Filter:}  
-    A method to estimate unobservable variables (e.g., latent volatility, drift) in state‐space models. The Kalman filter is the optimal (minimum variance) estimator under the Roll model's Gaussian noise and linear state‐space assumptions.
-  \item \textbf{Bid–Ask Spread \& Liquidity:}  
-    Market makers set quotes $(\text{bid}, \text{ask})$. Spread widens during high volatility or low liquidity, affecting realized returns via transaction costs.
-  \item \textbf{Clarification:} Even if simple/net returns are Gaussian, log returns are generally not exactly Gaussian. Empirically, however, log returns often appear approximately Gaussian over short horizons.
+	\item \textbf{Definition of Returns:} \\
+	      \textbf{Simple/Raw/Net Returns:}
+	      \[
+		      R_t = \frac{P_t - P_{t-1}}{P_{t-1}},
+	      \]
+	      \textbf{Logarithmic Returns:}
+	      \[
+		      r_t = \log(1 + R_t) = \log(P_t) - \log(P_{t-1}).
+	      \]
+	      Logarithmic returns are additive under compounding and, for small values, are well-approximated by simple returns.
+	\item \textbf{Excess Return vs.\ Total Return:}
+	      Excess return is $R_t - R_{f,t}$, where $R_{f,t}$ is the risk‐free rate over period $t$. Performance metrics (Sharpe, $\alpha$) use excess returns.
+	\item \textbf{Stylized Facts of Equity Returns:}
+	      \begin{itemize}[noitemsep,left=2em]
+		      \item Returns exhibit \emph{volatility clustering} (conditional heteroskedasticity).
+		      \item Distribution is \emph{leptokurtic}: heavier tails than the normal distribution.
+		      \item Autocorrelation of raw returns $\approx 0$; squared returns $r_t^2$ show persistence.
+	      \end{itemize}
+	\item \textbf{Kalman Filter:}
+	      A method to estimate unobservable variables (e.g., latent volatility, drift) in state\textendash space models. The Kalman filter is the optimal (minimum variance) estimator under the Roll model's normally distributed (Gaussian) noise and linear state\textendash space assumptions.
+	\item \textbf{Bid–Ask Spread \& Liquidity:}
+	      Market makers set quotes $(\text{bid}, \text{ask})$. Spread widens during high volatility or low liquidity, affecting realized returns via transaction costs.
+	\item \textbf{Clarification:} Even if simple/net returns are normally distributed, log returns are generally not exactly normal. Empirically, however, log returns often appear approximately normal over short horizons.
 \end{enumerate}
 
 \section{Week 1 Reading (June 1–7)}
 
 \subsection{Assigned Reading}
 \begin{itemize}[noitemsep,left=0pt]
-  \item \textbf{Chapter 2, Sections 2.2–2.5:}
-    \begin{enumerate}[noitemsep,left=1em]
-      \item 2.2 Conditional Heteroskedastic Models
-      \item 2.3 Nonparametric Estimation of Variance
-      \item 2.4 Appendix (GARCH Stationarity and Moment Conditions)
-      \item 2.5 Exercises
-    \end{enumerate}
+	\item \textbf{Chapter 2, Sections 2.2–2.5:}
+	      \begin{enumerate}[noitemsep,left=1em]
+		      \item 2.2 Conditional Heteroskedastic Models
+		      \item 2.3 Nonparametric Estimation of Variance
+		      \item 2.4 Appendix (GARCH Stationarity and Moment Conditions)
+		      \item 2.5 Exercises
+	      \end{enumerate}
 \end{itemize}
 
 \subsection{Learning Objectives}
 By the end of Week 1, you should be able to:
 \begin{enumerate}[noitemsep,left=0pt]
-  \item Derive and explain the \emph{ARCH(1)} and \emph{GARCH(1,1)} specifications.
-  \item Understand why volatility clusters arise and how they're modeled parametrically.
-  \item Compare \emph{parametric} (GARCH) vs.\ \emph{nonparametric} (rolling‐window or kernel) volatility estimators.
-  \item Work through the appendix proofs to confirm GARCH stationarity and compute unconditional variance.
+	\item Derive and explain the \emph{ARCH(1)} and \emph{GARCH(1,1)} specifications.
+	\item Understand why volatility clusters arise and how they're modeled parametrically.
+	\item Compare \emph{parametric} (GARCH) vs.\ \emph{nonparametric} (rolling‐window or kernel) volatility estimators.
+	\item Work through the appendix proofs to confirm GARCH stationarity and compute unconditional variance.
 \end{enumerate}
 
 \subsection{Section Summaries \& Discussion Questions}
@@ -92,152 +94,166 @@ By the end of Week 1, you should be able to:
 \subsubsection{2.2 Conditional Heteroskedastic Models}
 \paragraph{Summary:}
 \begin{itemize}[noitemsep,left=0pt]
-  \item ARCH(1):
-    \[
-      \varepsilon_t = h_t\,z_t,\quad z_t \sim \mathcal{N}(0,1),
-      \quad
-      h_t^2 \;=\; \omega + \alpha\,\varepsilon_{t-1}^2.
-    \]
-  \item GARCH(1,1):
-    \[
-      h_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,h_{t-1}^2.
-    \]
-  \item Both capture \emph{volatility clustering}: large $\varepsilon_{t-1}^2$ $\rightarrow$ large $h_t^2$.
-  \item Stationarity condition: $\alpha + \beta < 1$ for covariance‐stationarity.
-  \item \textbf{Note:} Conditional variance (volatility) can change over time based on past information, while the \emph{unconditional variance} is constant (long-run average). This distinction explains why GARCH models capture \emph{volatility clustering} and \emph{heavy tails} in returns.
+	\item ARCH(1):
+	      \[
+		      \varepsilon_t = h_t z_t,\quad z_t \sim \mathcal{N}(0,1)\text{ (the standard normal distribution)},
+		      \quad
+		      h_t^2 = \omega + \alpha \varepsilon_{t-1}^2.
+	      \]
+	\item GARCH(1,1):
+	      \[
+		      h_t^2 = \omega + \alpha \varepsilon_{t-1}^2 + \beta h_{t-1}^2.
+	      \]
+	\item Both capture \emph{volatility clustering}: a large value of $\varepsilon_{t-1}^2$ leads to a large value of $h_t^2$.
+	\item Stationarity condition: $\alpha + \beta < 1$ for covariance\textendash stationarity.
+	      \begin{proposition}
+		      In a stationary GARCH(1,1) model with parameters $\omega, \alpha, \beta$ satisfying $\alpha + \beta < 1$, the unconditional variance is
+		      \[
+			      \operatorname{Var}(\varepsilon_t) = \frac{\omega}{1 - \alpha - \beta}.
+		      \]
+	      \end{proposition}
+	\item \textbf{Note:} Conditional variance (volatility) can change over time based on past information, while the \emph{unconditional variance} is constant (long-run average). This distinction explains why GARCH models capture \emph{volatility clustering} and \emph{heavy tails} in returns.
 
-  % --- BEGIN EXPANDED CLARIFICATION ---
-  \begin{enumerate}[left=2em, label=\arabic*.]
-    \item \textbf{Conditional variance $h_t^2 = \operatorname{Var}(\varepsilon_t \mid \mathcal{F}_{t-1})$}
-    \begin{itemize}
-      \item ``Conditional'' means ``given all information up to time $t-1$'' (the $\sigma$-algebra $\mathcal{F}_{t-1}$).
-      \item In an ARCH/GARCH model this quantity is \emph{dynamic}: every time new information (the most recent squared return, past variance, etc.) arrives, the forecast for next period's variance is updated, so $h_t^2$ moves around through time.
-    \end{itemize}
-    \item \textbf{Unconditional variance $\operatorname{Var}(\varepsilon_t)$}
-    \begin{itemize}
-      \item This is the long-run, time-average variance you would get if you ignored the dating of observations and just treated every $\varepsilon_t$ as an i.i.d. draw from the same distribution.
-      \item In a stationary GARCH(1,1) with parameters $\omega,\alpha,\beta$ satisfying $\alpha+\beta<1$, that constant is
-      \[
-        \operatorname{Var}(\varepsilon_t)=\frac{\omega}{1-\alpha-\beta}.
-      \]
-    \end{itemize}
-    \item \textbf{Why the distinction matters}
-    \begin{itemize}
-      \item The \emph{time-varying} $h_t^2$ explains \textbf{volatility clustering}: periods of high (or low) conditional variance persist because yesterday's large (or small) squared return feeds directly into today's variance forecast, which in turn influences tomorrow's.
-      \item Even if the shocks $z_t$ in $\varepsilon_t=h_t z_t$ are Gaussian, the fact that $h_t$ changes randomly makes the \emph{marginal} (unconditional) distribution of $\varepsilon_t$ a mixture of normals with different variances. Mixture distributions have fatter tails than any single normal component, so the model naturally produces \textbf{heavy-tailed} unconditional returns.
-    \end{itemize}
-  \end{enumerate}
-  % --- END EXPANDED CLARIFICATION ---
-  \item \textbf{Volatility Persistence:} When $\alpha + \beta \approx 1$, volatility shocks decay slowly, leading to highly persistent volatility clustering.
+	      % --- BEGIN EXPANDED CLARIFICATION ---
+	      \begin{enumerate}[left=2em, label=\arabic*.]
+		      \item \textbf{Conditional variance $h_t^2 = \operatorname{Var}(\varepsilon_t \mid \mathcal{F}_{t-1})$}, where $\mathcal{F}_{t-1}$ denotes the sigma-algebra generated by information available up to time $t-1$.
+		            \begin{itemize}
+			            \item ``Conditional'' means ``given all information up to time $t-1$'' (the $\sigma$-algebra $\mathcal{F}_{t-1}$).
+			            \item In an ARCH/GARCH model this quantity is \emph{dynamic}: every time new information (the most recent squared return, past variance, etc.) arrives, the forecast for next period's variance is updated, so $h_t^2$ moves around through time.
+		            \end{itemize}
+		      \item \textbf{Unconditional variance $\operatorname{Var}(\varepsilon_t)$}
+		            \begin{itemize}
+			            \item This is the long-run, time-average variance you would get if you ignored the dating of observations and just treated every $\varepsilon_t$ as an i.i.d. draw from the same distribution.
+			            \item In a stationary GARCH(1,1) with parameters $\omega,\alpha,\beta$ satisfying $\alpha+\beta<1$, that constant is
+			                  \[
+				                  \operatorname{Var}(\varepsilon_t)=\frac{\omega}{1-\alpha-\beta}.
+			                  \]
+		            \end{itemize}
+		      \item \textbf{Why the distinction matters}
+		            \begin{itemize}
+			            \item The \emph{time-varying} $h_t^2$ explains \textbf{volatility clustering}: periods of high (or low) conditional variance persist because yesterday's large (or small) squared return feeds directly into today's variance forecast, which in turn influences tomorrow's.
+			            \item Even if the shocks $z_t$ in $\varepsilon_t=h_t z_t$ are normally distributed, the fact that $h_t$ changes randomly makes the \emph{marginal} (unconditional) distribution of $\varepsilon_t$ a mixture of normals with different variances. Mixture distributions have fatter tails than any single normal component, so the model naturally produces \textbf{heavy-tailed} unconditional returns.
+		            \end{itemize}
+	      \end{enumerate}
+	      % --- END EXPANDED CLARIFICATION ---
+	\item \textbf{Volatility Persistence:} When $\alpha + \beta \approx 1$, volatility shocks decay slowly, leading to highly persistent volatility clustering.
 \end{itemize}
 
 \paragraph{Questions to Consider:}
 \begin{enumerate}[noitemsep,left=0pt]
-  \item Show that under GARCH(1,1), $\mathrm{Var}(\varepsilon_t) = \omega/(1 - \alpha - \beta)$.
-  \item How does GARCH(1,1) reduce to ARCH(1) when $\beta = 0$?
-  \item Explain why $\alpha + \beta$ close to 1 implies very persistent volatility shocks.
+	\item Show that under GARCH(1,1), \[\mathrm{Var}(\varepsilon_t) = \frac{\omega}{1 - \alpha - \beta}.\]
+	\item How does GARCH(1,1) reduce to ARCH(1) when $\beta = 0$?
+	\item Explain why $\alpha + \beta$ close to 1 implies very persistent volatility shocks.
 \end{enumerate}
 
 \subsubsection{2.3 Nonparametric Estimation of Variance}
 \paragraph{Summary:}
 \begin{itemize}[noitemsep,left=0pt]
-  \item \emph{Rolling‐window estimator} (past $m$ returns):
-    \[
-      \hat h_t^2 \;=\; \frac{1}{m - 1}\sum_{i=1}^m \bigl(R_{t-i} - \bar{R}\bigr)^2.
-    \]
-  \item \emph{Kernel estimator}:
-    \[
-      \hat h_t^2 \;=\; \sum_{i=1}^T K\!\Bigl(\tfrac{i - t}{h}\Bigr)\,(R_i - \bar{R})^2.
-    \]
-  \item Bias–variance tradeoff: larger window/bandwidth → smoother estimate but more lag.
+	\item \emph{Rolling‐window estimator} (past $m$ returns):
+	      \[
+		      \hat h_t^2 \;=\; \frac{1}{m - 1}\sum_{i=1}^m \bigl(R_{t-i} - \bar{R}\bigr)^2.
+	      \]
+	\item \emph{Kernel estimator}:
+	      \[
+		      \hat h_t^2 \;=\; \sum_{i=1}^T K\!\Bigl(\tfrac{i - t}{h}\Bigr)\,(R_i - \bar{R})^2.
+	      \]
+	\item Bias–variance tradeoff: larger window/bandwidth → smoother estimate but more lag.
 \end{itemize}
 
 \paragraph{Questions to Consider:}
 \begin{enumerate}[noitemsep,left=0pt]
-  \item If you choose a window of 60 days vs.\ 200 days, how does responsiveness to a volatility spike change?
-  \item Under what conditions might a kernel estimate outperform a simple rolling‐window?
-  \item How do you pick the bandwidth $h$ in practice?
+	\item If you choose a window of 60 days vs.\ 200 days, how does responsiveness to a volatility spike change?
+	\item Under what conditions might a kernel estimate outperform a simple rolling‐window?
+	\item How do you pick the bandwidth $h$ in practice?
 \end{enumerate}
 
 \subsubsection{2.4 Appendix (Stationarity \& Moments)}
 \paragraph{Summary:}
 \begin{itemize}[noitemsep,left=0pt]
-  \item Proof that \emph{GARCH(1,1)} is covariance‐stationary if $\alpha + \beta < 1$.
-  \item Calculation of $\mathbb{E}[h_t^2]$ and $\mathbb{E}[\varepsilon_t^4]$ under Gaussian $z_t$.
-  \item Consequence: unconditional kurtosis $> 3$, even if $z_t$ is normal.
+	\item Proof that \emph{GARCH(1,1)} is covariance‐stationary if $\alpha + \beta < 1$.
+	\item Calculation of $\mathbb{E}[h_t^2]$ and $\mathbb{E}[\varepsilon_t^4]$ under Gaussian $z_t$.
+	\item Consequence: unconditional kurtosis $> 3$, even if $z_t$ is normal.
 \end{itemize}
 
 \paragraph{Questions to Consider:}
 \begin{enumerate}[noitemsep,left=0pt]
-  \item Derive the formula for $\mathbb{E}[\varepsilon_t^4]$ in a GARCH(1,1) with $z_t \sim N(0,1)$.
-  \item Why does a GARCH(1,1) generate \emph{fat tails} in the unconditional distribution of $\varepsilon_t$?
-  \item What happens to kurtosis as $\alpha + \beta \to 1$?
+	\item Derive the formula for $\mathbb{E}[\varepsilon_t^4]$ in a GARCH(1,1) with $z_t \sim N(0,1)$.
+	\item Why does a GARCH(1,1) generate \emph{fat tails} in the unconditional distribution of $\varepsilon_t$?
+	\item What happens to kurtosis as $\alpha + \beta \to 1$?
 \end{enumerate}
 
 \subsubsection{2.5 Exercises}
 The exercises in the book are:
 \begin{enumerate}[noitemsep,left=0pt]
-  \item \textbf{ARCH(1) Moment Calculation:} Show $\mathbb{E}[\varepsilon_t^2] = \omega/(1 - \alpha)$.
-  \item \textbf{GARCH(1,1) Unconditional Variance:} Verify $\mathbb{E}[h_t^2] = \omega/(1 - \alpha - \beta)$.
-  \item \textbf{Simulated Return Series:} Generate 1{,}000‐point ARCH(1) series with $\omega=0.0001$, $\alpha=0.1$. Plot sample variance over time (in Python/R).
-  \item \textbf{Rolling vs.\ GARCH Forecast:} On a toy daily‐return series, compute 20‐day rolling‐window variance and compare to 1‐step GARCH forecast.
+	\item \textbf{ARCH(1) Moment Calculation:} Show $\mathbb{E}[\varepsilon_t^2] = \omega/(1 - \alpha)$.
+	\item \textbf{GARCH(1,1) Unconditional Variance:} Verify $\mathbb{E}[h_t^2] = \omega/(1 - \alpha - \beta)$.
+	\item \textbf{Simulated Return Series:} Generate 1{,}000‐point ARCH(1) series with $\omega=0.0001$, $\alpha=0.1$. Plot sample variance over time (in Python/R).
+	\item \textbf{Rolling vs.\ GARCH Forecast:} On a toy daily‐return series, compute 20‐day rolling‐window variance and compare to 1‐step GARCH forecast.
 \end{enumerate}
 
 \section{Recommended Exercises for Week 1}
 
 \begin{enumerate}[label=\arabic*.,noitemsep,left=0pt]
-  \item \textbf{Derive GARCH(1,1) Unconditional Variance.}\\
-    Starting with
-    \[
-      h_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,h_{t-1}^2,
-    \]
-    show that
-    \[
-      \mathbb{E}[h_t^2] \;=\; \frac{\omega}{1 - \alpha - \beta}.
-    \]
-    \textit{Hint:} Use $\mathbb{E}[\varepsilon_{t-1}^2] = \mathbb{E}[h_{t-1}^2]$.
+	\item \textbf{Derive GARCH(1,1) Unconditional Variance.}\\
+	      Starting with
+	      \[
+		      h_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,h_{t-1}^2,
+	      \]
+	      show that
+	      \[
+		      \mathbb{E}[h_t^2] \;=\; \frac{\omega}{1 - \alpha - \beta}.
+	      \]
+	      \textit{Hint:} Use $\mathbb{E}[\varepsilon_{t-1}^2] = \mathbb{E}[h_{t-1}^2]$.
 
-  \item Let \(h^2 = \frac{\alpha_0}{1 - \beta_1}\). Show that
-    \[
-      h_t^2 \;=\; h^2 \;+\; \alpha_1 \sum_{i=1}^\infty \beta_1^{\,i-1}\,r_{t-i}^2 \, .
-    \]
-    
+	\item Let \(h^2 = \frac{\alpha_0}{1 - \beta_1}\). Show that
+	      \[
+		      h_t^2 \;=\; h^2 \;+\; \alpha_1 \sum_{i=1}^\infty \beta_1^{\,i-1}\,r_{t-i}^2 \, .
+	      \]
 
-  \item \textbf{Simulate ARCH(1) and Estimate Sample Variance.}\\
-    In R/Python:
-    \begin{enumerate}[noitemsep,left=1em]
-      \item Simulate 1{,}000 draws of $\varepsilon_t = h_t\,z_t$ with $z_t \sim N(0,1)$, $\omega=10^{-4}$, $\alpha=0.2$.
-      \item Compute the sample rolling 50‐day variance of $\varepsilon_t$.
-      \item Overlay the true $h_t^2$ from the simulation.
-    \end{enumerate}
-    Write a short paragraph comparing sample vs.\ true volatility.
 
-  \item \textbf{Kernel Variance Estimator.}\\
-    \begin{enumerate}[noitemsep,left=1em]
-      \item Choose a simple kernel (e.g., Gaussian) with bandwidth $h=25$.
-      \item For the same simulated ARCH series, compute
-        \[
-          \hat h_t^2 = \sum_{i=1}^{1000} K\Bigl(\tfrac{i - t}{25}\Bigr)\,\varepsilon_i^2.
-        \]
-      \item Plot this against the 50‐day rolling variance.
-    \end{enumerate}
-    Discuss how kernel smoothing might help during periods of abrupt volatility change.
+	\item \textbf{Simulate ARCH(1) and Estimate Sample Variance.}\\
+	      In R/Python:
+	      \begin{enumerate}[noitemsep,left=1em]
+		      \item Simulate 1{,}000 draws of $\varepsilon_t = h_t\,z_t$ with $z_t \sim N(0,1)$, $\omega=10^{-4}$, $\alpha=0.2$.
+		      \item Compute the sample rolling 50‐day variance of $\varepsilon_t$.
+		      \item Overlay the true $h_t^2$ from the simulation.
+	      \end{enumerate}
+	      Write a brief discussion comparing the sample variance to the true conditional variance.
 
-  \item \textbf{Appendix Proof Checks.}\\
-    \begin{enumerate}[noitemsep,left=1em]
-      \item Reproduce the main steps in Section 2.4 to confirm that GARCH(1,1) has kurtosis $>3$.
-      \item Provide a 1–2 paragraph write‐up: Why does conditional heteroskedasticity alone generate fat‐tailed returns?
-    \end{enumerate}
+	\item \textbf{Kernel Variance Estimator.}\\
+	      \begin{enumerate}[noitemsep,left=1em]
+		      \item Choose a simple kernel (e.g., Gaussian) with bandwidth $h=25$.
+		      \item For the same simulated ARCH series, compute
+		            \[
+			            \hat h_t^2 = \sum_{i=1}^{1000} K\Bigl(\tfrac{i - t}{25}\Bigr)\,\varepsilon_i^2.
+		            \]
+		      \item Plot this against the 50‐day rolling variance.
+	      \end{enumerate}
+	      Discuss how kernel smoothing might help during periods of abrupt volatility change.
 
-  \item \textbf{Practical Question.}\\
-    \begin{enumerate}[noitemsep,left=1em]
-      \item Given a real equity return series (e.g., SPY daily returns), fit a GARCH(1,1) model.
-      \item Report estimated parameters $(\omega,\alpha,\beta)$, and check whether $\alpha + \beta < 1$.
-      \item Compare 1‐step GARCH forecast to 30‐day rolling sample variance over time.
-      \item Summarize: In which sub‐periods did GARCH outperform rolling estimation, and vice versa?
-      \item \emph{Tip:} Use \texttt{yfinance} or \texttt{pandas\_datareader} in Python to download historical SPY returns.
-    \end{enumerate}
+	\item \textbf{Appendix Proof Checks.}\\
+	      \begin{enumerate}[noitemsep,left=1em]
+		      \item Reproduce the main steps in Section 2.4 to confirm that GARCH(1,1) has kurtosis $>3$.
+		      \item Provide a 1–2 paragraph write‐up: Why does conditional heteroskedasticity alone generate fat‐tailed returns?
+	      \end{enumerate}
+
+	\item \textbf{Practical Question.}\\
+	      \begin{enumerate}[noitemsep,left=1em]
+		      \item Given a real equity return series (e.g., SPY daily returns), fit a GARCH(1,1) model.
+		      \item Report estimated parameters $(\omega,\alpha,\beta)$, and check whether $\alpha + \beta < 1$.
+		      \item Compare 1‐step GARCH forecast to 30‐day rolling sample variance over time.
+		      \item Summarize: In which sub‐periods did GARCH outperform rolling estimation, and vice versa?
+		      \item \emph{Tip:} Use \texttt{yfinance} or \texttt{pandas\_datareader} in Python to download historical SPY returns.
+	      \end{enumerate}
 \end{enumerate}
+
+\section*{Further Reading}
+\begin{itemize}
+	\item Engle, R. F. (1982). "Autoregressive Conditional Heteroskedasticity with Estimates of the Variance of United Kingdom Inflation." \emph{Econometrica}, 50(4), 987–1007.
+	\item Bollerslev, T. (1986). "Generalized Autoregressive Conditional Heteroskedasticity." \emph{Journal of Econometrics}, 31(3), 307–327.
+	\item Tsay, R. S. (2010). \emph{Analysis of Financial Time Series}. 3rd Edition, Wiley.
+	\item McNeil, A. J., Frey, R., \& Embrechts, P. (2015). \emph{Quantitative Risk Management: Concepts, Techniques and Tools}. Revised Edition, Princeton University Press.
+\end{itemize}
 
 % -----------------------------------------------------------
 % END DOCUMENT

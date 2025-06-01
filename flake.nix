@@ -113,6 +113,7 @@
           inherit (config.flake-root) projectRootFile;
           package = pkgs.treefmt;
           programs.alejandra.enable = true;
+          programs.latexindent.enable = true;
         };
         formatter = config.treefmt.build.wrapper;
       };
