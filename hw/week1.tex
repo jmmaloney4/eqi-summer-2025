@@ -59,9 +59,10 @@
       \item Autocorrelation of raw returns $\approx 0$; squared returns \( r_t^2 \) show persistence.
     \end{itemize}
   \item \textbf{Kalman Filter:}  
-    A method to estimate unobservable variables (e.g., latent volatility, drift) in state‐space models.
+    A method to estimate unobservable variables (e.g., latent volatility, drift) in state‐space models. The Kalman filter is the optimal (minimum variance) estimator under the Roll model's Gaussian noise and linear state‐space assumptions.
   \item \textbf{Bid–Ask Spread \& Liquidity:}  
     Market makers set quotes $(\text{bid}, \text{ask})$. Spread widens during high volatility or low liquidity, affecting realized returns via transaction costs.
+  \item \textbf{Clarification:} Even if simple/net returns are Gaussian, log returns are generally not exactly Gaussian. Empirically, however, log returns often appear approximately Gaussian over short horizons.
 \end{enumerate}
 
 \section{Week 1 Reading (June 1–7)}
@@ -101,8 +102,33 @@ By the end of Week 1, you should be able to:
     \[
       h_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,h_{t-1}^2.
     \]
-  \item Both capture \emph{volatility clustering}: large $\varepsilon_{t-1}^2$ → large $h_t^2$.
+  \item Both capture \emph{volatility clustering}: large $\varepsilon_{t-1}^2$ $\rightarrow$ large $h_t^2$.
   \item Stationarity condition: $\alpha + \beta < 1$ for covariance‐stationarity.
+  \item \textbf{Note:} Conditional variance (volatility) can change over time based on past information, while the \emph{unconditional variance} is constant (long-run average). This distinction explains why GARCH models capture \emph{volatility clustering} and \emph{heavy tails} in returns.
+
+  % --- BEGIN EXPANDED CLARIFICATION ---
+  \begin{enumerate}[left=2em, label=\arabic*.]
+    \item \textbf{Conditional variance $h_t^2 = \operatorname{Var}(\varepsilon_t \mid \mathcal{F}_{t-1})$}
+    \begin{itemize}
+      \item ``Conditional'' means ``given all information up to time $t-1$'' (the $\sigma$-algebra $\mathcal{F}_{t-1}$).
+      \item In an ARCH/GARCH model this quantity is \emph{dynamic}: every time new information (the most recent squared return, past variance, etc.) arrives, the forecast for next period's variance is updated, so $h_t^2$ moves around through time.
+    \end{itemize}
+    \item \textbf{Unconditional variance $\operatorname{Var}(\varepsilon_t)$}
+    \begin{itemize}
+      \item This is the long-run, time-average variance you would get if you ignored the dating of observations and just treated every $\varepsilon_t$ as an i.i.d. draw from the same distribution.
+      \item In a stationary GARCH(1,1) with parameters $\omega,\alpha,\beta$ satisfying $\alpha+\beta<1$, that constant is
+      \[
+        \operatorname{Var}(\varepsilon_t)=\frac{\omega}{1-\alpha-\beta}.
+      \]
+    \end{itemize}
+    \item \textbf{Why the distinction matters}
+    \begin{itemize}
+      \item The \emph{time-varying} $h_t^2$ explains \textbf{volatility clustering}: periods of high (or low) conditional variance persist because yesterday's large (or small) squared return feeds directly into today's variance forecast, which in turn influences tomorrow's.
+      \item Even if the shocks $z_t$ in $\varepsilon_t=h_t z_t$ are Gaussian, the fact that $h_t$ changes randomly makes the \emph{marginal} (unconditional) distribution of $\varepsilon_t$ a mixture of normals with different variances. Mixture distributions have fatter tails than any single normal component, so the model naturally produces \textbf{heavy-tailed} unconditional returns.
+    \end{itemize}
+  \end{enumerate}
+  % --- END EXPANDED CLARIFICATION ---
+  \item \textbf{Volatility Persistence:} When $\alpha + \beta \approx 1$, volatility shocks decay slowly, leading to highly persistent volatility clustering.
 \end{itemize}
 
 \paragraph{Questions to Consider:}
@@ -209,6 +235,7 @@ The exercises in the book are:
       \item Report estimated parameters $(\omega,\alpha,\beta)$, and check whether $\alpha + \beta < 1$.
       \item Compare 1‐step GARCH forecast to 30‐day rolling sample variance over time.
       \item Summarize: In which sub‐periods did GARCH outperform rolling estimation, and vice versa?
+      \item \emph{Tip:} Use \texttt{yfinance} or \texttt{pandas\_datareader} in Python to download historical SPY returns.
     \end{enumerate}
 \end{enumerate}
 

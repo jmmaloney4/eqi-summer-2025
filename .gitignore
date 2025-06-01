@@ -8,3 +8,4 @@ result
 *.out
 *.fdb_latexmk
 *.synctex*
+*.pdf
