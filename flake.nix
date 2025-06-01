@@ -55,14 +55,23 @@
         inputs.latex-utils.modules.latex-utils
       ];
 
-      latex-utils.documents = [
-        {
-          name = "eqi-notes.pdf";
+      latex-utils.documents =
+        [
+          {
+            name = "eqi-notes.pdf";
+            src = ./.;
+            inputFile = "main.tex";
+          }
+        ]
+        ++ builtins.map (x: {
+          name = "${nixpkgs.lib.removeSuffix ".tex" x}.pdf";
           src = ./.;
-          inputFile = "main.tex";
-          extraTexPackages = ["collection-fontsextra" "latex-fonts"];
-        }
-      ];
+          inputFile = "./hw/${x}";
+          extraTexPackages = [
+            "metafont"
+            "mfware"
+          ];
+        }) (builtins.filter (x: nixpkgs.lib.hasSuffix ".tex" x) (builtins.attrNames (builtins.readDir ./hw)));
 
       perSystem = {
         config,
@@ -74,14 +83,15 @@
         ...
       }: {
         devShells.default = pkgs.mkShell {
-          inputsFrom = [
-            self'.packages.default
-
-            config.mission-control.devShell
-            config.pre-commit.devShell
-            config.treefmt.build.devShell
-          ];
+          inputsFrom =
+            [
+              config.mission-control.devShell
+              config.pre-commit.devShell
+              config.treefmt.build.devShell
+            ]
+            ++ builtins.map (x: self'.packages.${x}) (builtins.attrNames self'.packages);
           buildInputs = with pkgs; [
+            ltex-ls
           ];
         };
 

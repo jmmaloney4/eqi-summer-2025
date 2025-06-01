@@ -1,3 +1,10 @@
 .pre-commit-config.yaml
 .direnv/
 result
+
+*.aux
+*.log
+*.fls
+*.out
+*.fdb_latexmk
+*.synctex*
