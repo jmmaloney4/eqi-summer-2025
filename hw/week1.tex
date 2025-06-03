@@ -245,6 +245,25 @@ The exercises in the book are:
 		      \item Summarize: In which sub‐periods did GARCH outperform rolling estimation, and vice versa?
 		      \item \emph{Tip:} Use \texttt{yfinance} or \texttt{pandas\_datareader} in Python to download historical SPY returns.
 	      \end{enumerate}
+
+	\item \textbf{Conditional Value-at-Risk Analysis.}\\
+	      Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space, and let $X \in L^p(\Omega, \mathcal{F}, \mathbb{P})$ denote the negative of the portfolio return (i.e., $X = -R$) for some $1 < p < \infty$. Consider the $\alpha$-level Conditional Value-at-Risk (CVaR), defined by
+	      \[
+		      \mathrm{CVaR}_\alpha(X) = \frac{1}{\alpha} \int_0^\alpha \mathrm{VaR}_u(X) \, du,
+	      \]
+	      where
+	      \[
+		      \mathrm{VaR}_u(X) := \inf \{ x \in \mathbb{R} : \mathbb{P}(X \leq x) \geq u \}
+	      \]
+	      is the Value-at-Risk at level $u \in (0, 1)$.
+	      \begin{enumerate}[noitemsep,left=1em]
+		      \item Show that if $X \in L^p$ for some $p > 1$, then $\mathrm{CVaR}_\alpha(X)$ is finite for any $\alpha \in (0, 1)$.
+		      \item Use Hölder's inequality to establish that
+		            \[
+			            \mathrm{CVaR}_\alpha(X) \leq \frac{1}{\alpha} \| X \|_p \| \mathbf{1}_{\{ X \geq \mathrm{VaR}_\alpha(X) \}} \|_q,
+		            \]
+		            where $\frac{1}{p} + \frac{1}{q} = 1$, and conclude that $\mathrm{CVaR}_\alpha(X) < \infty$.
+	      \end{enumerate}
 \end{enumerate}
 
 \section*{Further Reading}
