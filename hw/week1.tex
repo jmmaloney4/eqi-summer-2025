@@ -274,6 +274,102 @@ The exercises in the book are:
 	\item McNeil, A. J., Frey, R., \& Embrechts, P. (2015). \emph{Quantitative Risk Management: Concepts, Techniques and Tools}. Revised Edition, Princeton University Press.
 \end{itemize}
 
+\appendix
+\section{The Lebesgue Integration Layer Cake Formula}
+
+\subsection*{The Big Picture}
+
+In basic calculus, you learn to compute integrals using Riemann integration—think of it as adding up little rectangles under a curve. However, this method has limitations, especially when dealing with functions that have "too many" discontinuities.
+
+Measure theory and \textbf{Lebesgue integration} provide a more flexible framework that can handle functions that Riemann integration struggles with. Instead of summing up rectangles in the horizontal direction (over the $x$-axis), Lebesgue integration "cuts" the graph of the function vertically—summing slices across \textbf{values} of the function.
+
+\subsection*{Key Building Blocks}
+
+\subsubsection*{1. Measure spaces}
+
+A \textbf{measure space} is a triple $(\Omega, \mathcal{F}, \mu)$, where:
+\begin{itemize}
+	\item $\Omega$ is the set of outcomes (like $\mathbb{R}$ or $[0,1]$).
+	\item $\mathcal{F}$ is a collection of subsets of $\Omega$ we can measure (like intervals, or more general sets).
+	\item $\mu$ is a function that assigns a non-negative size (or "measure") to each set in $\mathcal{F}$.
+\end{itemize}
+For example, for $\mathbb{R}$, $\mu$ might be the usual \textbf{Lebesgue measure} (generalizing length, area, volume, etc.).
+
+\subsubsection*{2. Measurable functions}
+
+A function $f: \Omega \to \mathbb{R}$ is \textbf{measurable} if it behaves nicely with respect to these measurable sets—intuitively, if the set $\{\omega: f(\omega) > \alpha\}$ is measurable for any number $\alpha$. This ensures that we can properly "count" or "measure" the size of regions where the function exceeds a given height.
+
+\subsubsection*{3. The Lebesgue integral}
+
+For a \textbf{non-negative measurable function} $f: \Omega \to [0, \infty]$, the \textbf{Lebesgue integral} is defined by:
+\[
+	\int_\Omega f \, d\mu := \sup \left\{ \int_\Omega s \, d\mu : 0 \leq s \leq f, \; s \text{ simple} \right\},
+\]
+where a \textbf{simple function} is one that only takes a finite number of values—like a step function.
+
+This is different from the Riemann integral because instead of slicing the $x$-axis (domain) into little intervals, we approximate $f$ from \textbf{below} using simple functions.
+
+\subsection*{The Key Idea: Layer Cake Representation}
+
+Now let's see how this approach lets us express an integral in a very different way—by slicing the graph of $f$ \textbf{horizontally}!
+
+For a non-negative measurable function $f$, at each level $\alpha \geq 0$, consider the set of points in $\Omega$ where $f(\omega) > \alpha$:
+\[
+	A_\alpha := \{\omega \in \Omega : f(\omega) > \alpha\}.
+\]
+This is called a \textbf{superlevel set}.
+
+Intuitively:
+\begin{itemize}
+	\item As $\alpha$ increases from 0 to $\infty$, $A_\alpha$ gets smaller—fewer points have function values larger than $\alpha$.
+	\item At $\alpha = 0$, $A_0$ is all of $\Omega$ if $f > 0$.
+	\item At very large $\alpha$, $A_\alpha$ might be empty.
+\end{itemize}
+
+\subsection*{The Layer Cake Formula}
+
+It turns out we can \textbf{rebuild} the function $f(\omega)$ by "stacking up" the indicator functions of these level sets:
+\[
+	f(\omega) = \int_0^\infty \mathbf{1}_{\{\alpha < f(\omega)\}} \, d\alpha.
+\]
+Here, $\mathbf{1}_{\{\alpha < f(\omega)\}} = 1$ whenever $\alpha$ is below $f(\omega)$, and 0 otherwise. So for any point $\omega$, this integral simply counts the "height" of the bar up to $f(\omega)$.
+
+\subsection*{Putting it all together: Fubini's Theorem}
+
+We can integrate over $\omega$ and $\alpha$ in \textbf{either order} (thanks to Fubini's or Tonelli's theorem, which says you can swap the order of integration for non-negative functions):
+\[
+	\int_\Omega f(\omega) \, d\mu(\omega) = \int_\Omega \left( \int_0^\infty \mathbf{1}_{\{\alpha < f(\omega)\}} \, d\alpha \right) d\mu(\omega).
+\]
+\[
+	= \int_0^\infty \left( \int_\Omega \mathbf{1}_{\{\alpha < f(\omega)\}} \, d\mu(\omega) \right) d\alpha.
+\]
+
+\subsection*{Final expression}
+
+The inner integral counts the \textbf{measure} of the set where $f(\omega) > \alpha$:
+\[
+	\int_\Omega \mathbf{1}_{\{\alpha < f(\omega)\}} \, d\mu(\omega) = \mu(\{\omega : f(\omega) > \alpha\}).
+\]
+Thus:
+\[
+	\int_\Omega f(\omega) \, d\mu(\omega) = \int_0^\infty \mu(\{\omega : f(\omega) > \alpha\}) \, d\alpha.
+\]
+
+\subsection*{Intuition}
+
+This final formula says:
+\begin{itemize}
+	\item The integral of the function $f$ can be seen as \textbf{adding up the areas of slices} across all possible heights $\alpha$.
+	\item This is why it's called the \textbf{layer cake}: each $\alpha$ represents a horizontal "layer" of the cake, and the area of that layer is given by the measure of the set where $f(\omega) > \alpha$.
+\end{itemize}
+
+\subsection*{Summary}
+\begin{itemize}
+	\item Lebesgue integration generalizes Riemann integration by "counting" the contribution of \textbf{value levels} of a function.
+	\item The \textbf{layer cake representation} expresses the integral as an integral over these \textbf{superlevel sets}.
+	\item This powerful viewpoint is central in probability, statistics, and risk measures, where we often want to understand the \textbf{size} of the tail of a distribution (like CVaR, Value-at-Risk, etc.).
+\end{itemize}
+
 % -----------------------------------------------------------
 % END DOCUMENT
 \end{document}

@@ -52,7 +52,7 @@
         mission-control.flakeModule
         pre-commit-hooks.flakeModule
         treefmt.flakeModule
-        inputs.latex-utils.modules.latex-utils
+        latex-utils.flakeModule
       ];
 
       latex-utils.documents =
@@ -64,14 +64,11 @@
           }
         ]
         ++ builtins.map (x: {
-          name = "${nixpkgs.lib.removeSuffix ".tex" x}.pdf";
+          name = "${inputs.nixpkgs.lib.removeSuffix ".tex" x}.pdf";
           src = ./.;
           inputFile = "./hw/${x}";
-          extraTexPackages = [
-            "metafont"
-            "mfware"
-          ];
-        }) (builtins.filter (x: nixpkgs.lib.hasSuffix ".tex" x) (builtins.attrNames (builtins.readDir ./hw)));
+          extraTexPackages = ["enumitem"];
+        }) (builtins.filter (x: inputs.nixpkgs.lib.hasSuffix ".tex" x) (builtins.attrNames (builtins.readDir ./hw)));
 
       perSystem = {
         config,
@@ -82,16 +79,13 @@
         lib,
         ...
       }: {
+        # Compose our development shell with latex-utils integration
         devShells.default = pkgs.mkShell {
-          inputsFrom =
-            [
-              config.mission-control.devShell
-              config.pre-commit.devShell
-              config.treefmt.build.devShell
-            ]
-            ++ builtins.map (x: self'.packages.${x}) (builtins.attrNames self'.packages);
-          buildInputs = with pkgs; [
-            ltex-ls
+          inputsFrom = [
+            config.mission-control.devShell
+            config.pre-commit.devShell
+            config.treefmt.build.devShell
+            config.latex-utils.devShell
           ];
         };
 
@@ -106,7 +100,7 @@
         pre-commit = {
           check.enable = true;
           settings.hooks.treefmt.enable = true;
-          settings.settings.treefmt.package = config.treefmt.build.wrapper;
+          settings.hooks.treefmt.package = config.treefmt.build.wrapper;
         };
 
         treefmt.config = {

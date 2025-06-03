@@ -10,3 +10,5 @@ result
 *.synctex*
 *.pdf
 *.bak*
+
+.vscode/settings.json
