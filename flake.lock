@@ -197,17 +197,14 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1748930758,
-        "narHash": "sha256-MVx95yQ76KCuXeCDLUJcEjwwi0izNtdwNA1z3RBA0S4=",
-        "owner": "jmmaloney4",
-        "repo": "latex-utils",
-        "rev": "294d875c88e22d3e8ad876e0d0b94f44b579e940",
-        "type": "github"
+        "lastModified": 1749075999,
+        "narHash": "sha256-v4hKpntVl139XOSNgSbXlcpHpVKOMzzTbOcN6KUwd+Y=",
+        "path": "/home/jack/git/github.com/jmmaloney4/latex-utils",
+        "type": "path"
       },
       "original": {
-        "owner": "jmmaloney4",
-        "repo": "latex-utils",
-        "type": "github"
+        "path": "/home/jack/git/github.com/jmmaloney4/latex-utils",
+        "type": "path"
       }
     },
     "mission-control": {
@@ -363,11 +360,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1748693115,
-        "narHash": "sha256-StSrWhklmDuXT93yc3GrTlb0cKSS0agTAxMGjLKAsY8=",
+        "lastModified": 1748929857,
+        "narHash": "sha256-lcZQ8RhsmhsK8u7LIFsJhsLh/pzR9yZ8yqpTzyGdj+Q=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "910796cabe436259a29a72e8d3f5e180fc6dfacc",
+        "rev": "c2a03962b8e24e669fb37b7df10e7c79531ff1a4",
         "type": "github"
       },
       "original": {

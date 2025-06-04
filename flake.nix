@@ -24,8 +24,8 @@
     };
 
     latex-utils = {
-      url = "github:jmmaloney4/latex-utils";
-      # url = "/Users/jack/git/github.com/jmmaloney4/latex-utils";
+      # url = "github:jmmaloney4/latex-utils";
+      url = "/home/jack/git/github.com/jmmaloney4/latex-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -67,7 +67,6 @@
           name = "${inputs.nixpkgs.lib.removeSuffix ".tex" x}.pdf";
           src = ./.;
           inputFile = "./hw/${x}";
-          extraTexPackages = ["enumitem"];
         }) (builtins.filter (x: inputs.nixpkgs.lib.hasSuffix ".tex" x) (builtins.attrNames (builtins.readDir ./hw)));
 
       perSystem = {
@@ -82,10 +81,10 @@
         # Compose our development shell with latex-utils integration
         devShells.default = pkgs.mkShell {
           inputsFrom = [
+            config.latex-utils.vscodeShell
             config.mission-control.devShell
             config.pre-commit.devShell
             config.treefmt.build.devShell
-            config.latex-utils.devShell
           ];
         };
 
@@ -107,7 +106,12 @@
           inherit (config.flake-root) projectRootFile;
           package = pkgs.treefmt;
           programs.alejandra.enable = true;
-          programs.latexindent.enable = true;
+          programs.latexindent = {
+            enable = true;
+            package = pkgs.writeShellScriptBin "latexindent" ''
+              exec ${lib.getExe' self'.packages.texlive-unified "latexindent"} "$@"
+            '';
+          };
         };
         formatter = config.treefmt.build.wrapper;
       };
