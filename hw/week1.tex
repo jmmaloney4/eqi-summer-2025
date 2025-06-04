@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{setspace}
+\usepackage{tikz} % CTAN: pgf
 
 % -----------------------------------------------------------
 % PAGE LAYOUT
@@ -158,6 +159,43 @@ By the end of Week 1, you should be able to:
 		      \hat h_t^2 \;=\; \sum_{i=1}^T K\!\Bigl(\tfrac{i - t}{h}\Bigr)\,(R_i - \bar{R})^2.
 	      \]
 	\item Bias–variance tradeoff: larger window/bandwidth → smoother estimate but more lag.
+\end{itemize}
+
+\paragraph{Notation:} In these expressions, $\bar R$ denotes the sample mean of the returns. For the rolling-window estimator,
+\[
+	\bar R = \frac{1}{m}\sum_{i=1}^m R_{t-i},
+\]
+and for the kernel estimator one typically takes
+\[
+	\bar R = \frac{1}{T}\sum_{i=1}^T R_i,
+\]
+or, if using an un-normalized kernel, the weighted mean
+\[
+	\bar R_t = \frac{\sum_{i=1}^T K\bigl(\tfrac{i - t}{h}\bigr)\,R_i}{\sum_{i=1}^T K\bigl(\tfrac{i - t}{h}\bigr)}.
+\]
+
+\paragraph{Statistical Estimators:} More generally, let $X$ be a random variable whose distribution depends on an unknown parameter $\lambda$. An \textbf{estimator} of $\lambda$ is a sequence of functions:
+\[
+	\{ \hat{\lambda}_n \}_{n \geq 1}
+\]
+Each $\hat{\lambda}_n : \mathbb{R}^n \to \mathbb{R}$ maps $n$ observed values (realizations) of $X$, denoted $X_1, X_2, \ldots, X_n$, to an estimate of the parameter $\lambda$:
+\[
+	\hat{\lambda}_n = \hat{\lambda}_n(X_1, X_2, \ldots, X_n)
+\]
+Typically, $X_1, X_2, \ldots, X_n$ are assumed to be \textbf{independent and identically distributed (i.i.d.)} samples from the distribution of $X$.
+
+\begin{itemize}[noitemsep,left=0pt]
+	\item \textbf{Parametric estimator:} Assumes the data comes from a specific distributional family $F(\cdot; \lambda)$ with a finite-dimensional parameter vector $\lambda$. For example, GARCH models assume specific functional forms for conditional variance with parameters $(\omega, \alpha, \beta)$.
+	\item \textbf{Non-parametric estimator:} Makes minimal assumptions about the underlying distribution and does not assume a specific parametric form. The rolling-window and kernel variance estimators are non-parametric because they estimate variance directly from sample data without assuming any particular distributional form for the returns.
+\end{itemize}
+
+Note that $\bar R$ itself is a \textbf{non-parametric estimator} of the expected return $\mathbb{E}[R]$, as it makes no distributional assumptions about the returns.
+
+\paragraph{Connection to Conditional vs.\ Unconditional Variance:} The parametric/non-parametric distinction maps closely onto the conditional/unconditional variance concepts discussed in Section 2.2:
+\begin{itemize}[noitemsep,left=0pt]
+	\item \textbf{GARCH models} are \textbf{parametric estimators of conditional variance} $h_t^2 = \operatorname{Var}(\varepsilon_t \mid \mathcal{F}_{t-1})$. They specify exactly how today's variance depends on past information through a particular functional form with parameters $(\omega, \alpha, \beta)$.
+	\item \textbf{Rolling-window and kernel estimators} are \textbf{non-parametric estimators} that estimate variance using recent data but without imposing a specific functional form for how variance depends on past information. While they do use conditioning information (recent observations), they don't assume a particular parametric structure for the conditional variance.
+	\item The rolling-window estimator $\hat h_t^2 = \frac{1}{m-1}\sum_{i=1}^m (R_{t-i} - \bar{R})^2$ can be viewed as estimating a \textbf{local unconditional variance}—the variance over the recent window, treating those $m$ observations as approximately i.i.d.
 \end{itemize}
 
 \paragraph{Questions to Consider:}
@@ -362,6 +400,98 @@ This final formula says:
 	\item The integral of the function $f$ can be seen as \textbf{adding up the areas of slices} across all possible heights $\alpha$.
 	\item This is why it's called the \textbf{layer cake}: each $\alpha$ represents a horizontal "layer" of the cake, and the area of that layer is given by the measure of the set where $f(\omega) > \alpha$.
 \end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[scale=1.0]
+		% Simple step function example
+		\draw[->] (0,0) -- (5,0) node[right] {$\omega$};
+		\draw[->] (0,0) -- (0,3.5) node[above] {$f(\omega)$};
+
+		% Draw step function
+		\draw[thick, blue] (0.5,0) -- (0.5,1) -- (1.5,1) -- (1.5,2.5) -- (2.5,2.5) -- (2.5,1.5) -- (3.5,1.5) -- (3.5,0.5) -- (4.5,0.5) -- (4.5,0);
+		\draw[thick, blue] (0,0) -- (0.5,0);
+		\draw[thick, blue] (4.5,0) -- (5,0);
+
+		% Fill areas
+		\fill[blue!20] (0.5,0) rectangle (1.5,1);
+		\fill[blue!20] (1.5,0) rectangle (2.5,2.5);
+		\fill[blue!20] (2.5,0) rectangle (3.5,1.5);
+		\fill[blue!20] (3.5,0) rectangle (4.5,0.5);
+
+		% Draw horizontal grid lines for layer cake
+		\foreach \y in {0.5, 1.0, 1.5, 2.0, 2.5} {
+				\draw[dashed, red, opacity=0.7] (0, \y) -- (5, \y);
+			}
+
+		% Label the intervals
+		\node[below] at (1, -0.2) {$I_1$};
+		\node[below] at (2, -0.2) {$I_2$};
+		\node[below] at (3, -0.2) {$I_3$};
+		\node[below] at (4, -0.2) {$I_4$};
+
+		% Add measure annotations
+		\node[right] at (5.2, 0.25) {$\mu(I_4) = 1$};
+		\node[right] at (5.2, 0.75) {$\mu(I_1 \cup I_2 \cup I_3 \cup I_4) = 4$};
+		\node[right] at (5.2, 1.25) {$\mu(I_2 \cup I_3) = 2$};
+		\node[right] at (5.2, 1.75) {$\mu(I_2) = 1$};
+		\node[right] at (5.2, 2.25) {$\mu(I_2) = 1$};
+
+		\node[below] at (2.5, -0.6) {\textbf{Concrete Example:}};
+		\node[below] at (2.5, -0.9) {$\int f d\mu = 1 \cdot 1 + 2.5 \cdot 1 + 1.5 \cdot 1 + 0.5 \cdot 1 = 5.5$};
+		\node[below] at (2.5, -1.2) {$= \int_0^{0.5} 1 d\alpha + \int_{0.5}^1 4 d\alpha + \int_1^{1.5} 2 d\alpha + \int_{1.5}^{2.5} 1 d\alpha$};
+	\end{tikzpicture}
+	\caption{Concrete example: For a step function, the layer cake formula sums the measures of superlevel sets at each height $\alpha$.}
+\end{figure}
+
+\subsection*{Relevance to Probability and Statistics}
+
+The layer cake representation is particularly powerful in probability theory because it allows us to transform problems from abstract, often complex probability spaces into problems on the real line that we can handle more easily.
+
+\paragraph{The Abstract-to-Concrete Transformation:}
+In probability, we typically start with:
+\begin{itemize}
+	\item An abstract \textbf{probability space} $(\Omega, \mathcal{F}, \mathbb{P})$ where $\Omega$ represents all possible outcomes (e.g., all possible stock price paths, weather patterns, or experimental results).
+	\item A \textbf{random variable} $X: \Omega \to \mathbb{R}$ that maps these abstract outcomes to real numbers we care about (returns, losses, temperatures, etc.).
+\end{itemize}
+
+The problem is that $\Omega$ can be incredibly complex—think of the space of all possible stock price trajectories over a year. Working directly with integrals over such spaces is often intractable.
+
+\paragraph{The Layer Cake Solution:}
+The layer cake formula transforms expectations of functions of $X$ into integrals over the real line:
+\[
+	\mathbb{E}[g(X)] = \int_\Omega g(X(\omega)) \, d\mathbb{P}(\omega) = \int_{-\infty}^\infty g(x) \, dF_X(x),
+\]
+where $F_X(x) = \mathbb{P}(X \leq x)$ is the \textbf{distribution function} of $X$. For non-negative functions $g$, this becomes:
+\[
+	\mathbb{E}[g(X)] = \int_0^\infty \mathbb{P}(g(X) > \alpha) \, d\alpha.
+\]
+
+\paragraph{Key Benefits:}
+\begin{enumerate}[noitemsep,left=0pt]
+	\item \textbf{Simplification:} We move from integration over a complex space $\Omega$ to integration over $\mathbb{R}$, which we understand well.
+	\item \textbf{Distribution-free analysis:} We only need to know the \textbf{pushforward measure} $X_*\mathbb{P}$ (the distribution of $X$) rather than the details of the original probability space.
+	\item \textbf{Tail behavior focus:} The formula $\int_0^\infty \mathbb{P}(X > \alpha) d\alpha$ naturally emphasizes the \textbf{tail probabilities} $\mathbb{P}(X > \alpha)$, which are crucial for risk management.
+	\item \textbf{Connection to quantiles:} This perspective directly connects to \textbf{Value-at-Risk} and other quantile-based risk measures, since $\mathbb{P}(X > \alpha)$ is intimately related to the quantile function.
+\end{enumerate}
+
+\paragraph{Applications in Finance:}
+For a portfolio loss $L$ (a random variable), the layer cake formula gives us:
+\[
+	\mathbb{E}[L] = \int_0^\infty \mathbb{P}(L > \alpha) \, d\alpha.
+\]
+This immediately shows that:
+\begin{itemize}
+	\item The expected loss is the \textbf{area under the survival function} $\alpha \mapsto \mathbb{P}(L > \alpha)$.
+	\item Risk measures like \textbf{Conditional Value-at-Risk (CVaR)} can be expressed as:
+	      \[
+		      \text{CVaR}_\beta(L) = \frac{1}{1-\beta} \int_{\text{VaR}_\beta(L)}^\infty \mathbb{P}(L > \alpha) \, d\alpha,
+	      \]
+	      making the connection between tail probabilities and risk measures explicit.
+	\item We can estimate or model $\mathbb{P}(L > \alpha)$ directly from data without needing to fully specify the underlying probability space of market scenarios.
+\end{itemize}
+
+In essence, the layer cake formula lets us work with the \textbf{distribution} of our random variable (which we can estimate from data) rather than the underlying \textbf{probability space} (which is typically unknown and complex).
 
 \subsection*{Summary}
 \begin{itemize}

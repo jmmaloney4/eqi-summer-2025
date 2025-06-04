@@ -197,14 +197,17 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1749075999,
-        "narHash": "sha256-v4hKpntVl139XOSNgSbXlcpHpVKOMzzTbOcN6KUwd+Y=",
-        "path": "/home/jack/git/github.com/jmmaloney4/latex-utils",
-        "type": "path"
+        "lastModified": 1749079701,
+        "narHash": "sha256-H98SmdqQ/OP3fnuIYZ5LQsvMK42C7uMu+G1fH3Ob+mE=",
+        "owner": "jmmaloney4",
+        "repo": "latex-utils",
+        "rev": "cce667d36812d4152565f1ac69ebe27b65f36346",
+        "type": "github"
       },
       "original": {
-        "path": "/home/jack/git/github.com/jmmaloney4/latex-utils",
-        "type": "path"
+        "owner": "jmmaloney4",
+        "repo": "latex-utils",
+        "type": "github"
       }
     },
     "mission-control": {

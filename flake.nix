@@ -24,8 +24,8 @@
     };
 
     latex-utils = {
-      # url = "github:jmmaloney4/latex-utils";
-      url = "/home/jack/git/github.com/jmmaloney4/latex-utils";
+      url = "github:jmmaloney4/latex-utils";
+      # url = "/home/jack/git/github.com/jmmaloney4/latex-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -108,9 +108,7 @@
           programs.alejandra.enable = true;
           programs.latexindent = {
             enable = true;
-            package = pkgs.writeShellScriptBin "latexindent" ''
-              exec ${lib.getExe' self'.packages.texlive-unified "latexindent"} "$@"
-            '';
+            package = self'.packages.latexindent;
           };
         };
         formatter = config.treefmt.build.wrapper;
