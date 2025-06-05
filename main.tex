@@ -1,4 +1,4 @@
-\documentclass[11pt]{amsart}
+\documentclass[11pt,reqno]{amsart}
 
 % -----------------------------------------------------------
 % PACKAGES
@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{tikz-cd} % CTAN: pgf
 \usepackage{geometry}
+\usepackage{braket}
 \geometry{margin=1in}
 
 % -----------------------------------------------------------
@@ -40,59 +41,80 @@
 
 \title{Notes on \textit{Elements of Quantitative Investing} by Paleologo}
 \author{Jack Maloney}
-% \address{Your Department, University, City, Country}
 \email{jmmaloney4@gmail.com}
-% \date{\today}
-
-% \begin{abstract}
-% This is a short abstract describing the main results of the paper.
-% \end{abstract}
+\date{\today}
 
 \maketitle
 
-\section{Mathematical Prerequisites}
+\section{Prerequisites and Return Space}
 
 \subsection{Probability Spaces and Measurable Functions}
-
-We first introduce the basic machinery of probability theory.
 
 \begin{definition}
 	A \emph{probability space} is a triple $(\Omega, \mathcal{F}, P)$ where $\Omega$ is a set, $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$, and $P: \mathcal{F} \to [0,1]$ is a probability measure with $P(\Omega) = 1$.
 \end{definition}
 
+The probability space is the fundamental object of probability theory. Many sets can be probability spaces, but one in particular is the \emph{physical measure} space, usually written as $(\Omega, \mathcal{F}, P)$.
+This is the space of all possible states of the world, with a probability distribution that reflects our current knowledge \cite{clayton2023bernoulli}.
+As you can imagine, there is not usually a great deal we can say about the physical measure space with any precision.
+We can, however, make statements about certain random variables--functions from the physical measure space to the real numbers.
+Random variables often model some obsevable quantity, such as the price of a stock, the weather, or the outcome of a coin flip.
+
 \begin{definition}
 	A \emph{random variable} is a measurable function $X: (\Omega, \mathcal{F}) \to (\mathbb{R}, \mathcal{B}(\mathbb{R}))$, where $\mathcal{B}(\mathbb{R})$ denotes the Borel $\sigma$-algebra on $\mathbb{R}$.
+
+	Recall that a function $f: (\Omega, \mathcal{F}) \to (\mathbb{R}, \mathcal{B}(\mathbb{R}))$ is measurable if $f^{-1}(B) \in \mathcal{F}$ for all $B \in \mathcal{B}(\mathbb{R})$.
 \end{definition}
 
-While the domain of the random variable is the physical measure space, there is not much we can say directly about they physical measure space, and so it is generally much easier to work in the setting of the real numbers.
+\begin{example}
+	Let \( X : \Omega \rightarrow \Set{1,0} \) be the random variable representing a particular coin toss. This means \(X\)  a map that assigns to each state of the universe \( \omega \in \Omega \) the value \(1\) if the coin lands heads and \(0\) if the coin lands tails.
+	\begin{align*}
+		\omega \mapsto \begin{cases}
+			               1 & \text{if coin lands heads in state } \omega \\
+			               0 & \text{if coin lands tails in state } \omega
+		               \end{cases}
+	\end{align*}
+	For simplicity of modeling, we assume all states of the universe have a coin toss, that ends in either heads or tails, and so this function \(X\) is well-defined.
+	Otherwise, we would have to extend the range to handle any exceptional cases.
+
+	To assert that \(X\) is a random variable, we must claim that the set of heads \(X^{-1}(\Set{1})\) and the set of tails \(X^{-1}(\Set{0})\) are both measurable sets in the \(\sigma\)-algebra of the physical measure space, \(\mathcal{F}\).
+\end{example}
+
+What makes random variables useful is that they allow us to move from studying the physical measure space, to studying the real numbers under the distribution of the random variable.
 
 \begin{definition}
 	The \emph{distribution} of a random variable \(X\) is a measure defined on the real numbers, the pushforward of the physical measure \(P\) by \(X\),
-	\[
-		X_{*}P (E) := P \left( X^{-1}(E) \right)
-	\]
-	for \(E \in \mathcal{B}(\mathbb{R})\).
+	\begin{align*}
+		X_{*}P (E) := P \left( X^{-1}(E) \right) \quad \text{for } E \in \mathcal{B}(\mathbb{R}).
+	\end{align*}
 \end{definition}
 
-
-
-Most random variables encountered in the theory have the additional nice property of having a partial distribution function.
+Most random variables encountered in practice have a distribution with the additional nice property of being represented by a density function.
 
 \begin{definition}
-	If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{partial distribution} function (unique up to Lebesgue-null sets) \(\mu_{X} = \frac{d X_{*}P}{d\lambda}\), the Radon-Nikodym derivative of the distribution with respect to Lebesgue measure.
+	If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{partial distribution function} or \emph{density function} (unique up to Lebesgue-null sets)
+	\begin{align*}
+		\mu_{X} = \frac{d X_{*}P}{d\lambda},
+	\end{align*}
+	the Radon-Nikodym derivative of the distribution with respect to Lebesgue measure.
 \end{definition}
 
-\section{Integration and Expectation}
+\subsection{Integration and Expectation}
 
 \begin{definition}
-	For a random variable $X$, its \emph{expectation} (or \emph{mean}) is defined as the Lebesgue integral
-	\[
+	The \emph{expectation} (or \emph{mean}) of a random variable $X$ is the Lebesgue integral
+	\begin{align}
 		\mathbb{E}[X]
-		:= \int_\Omega X(\omega) \, dP(\omega)
-		= \int_{\mathbb{R}} x dX_*P
-	\]
+		 & := \int_\Omega X(\omega) \, dP(\omega) \quad \text{for } \omega \in \Omega \nonumber \\
+		 & = \int_{\mathbb{R}} x \, dX_*P(dx).
+	\end{align}
 	provided the integral exists in the extended real line.
 \end{definition}
+
+% Todo:
+sigma algebras represent information or knowledge of information.
+- Relate to clayton2023bernoulli
+- Give an explicit example of a filtration representing historical price information for a time series.
 
 \begin{definition}
 	Let $\mathcal{G} \subseteq \mathcal{F}$ be a sub-$\sigma$-algebra. The \emph{conditional expectation} of $X$ given $\mathcal{G}$, denoted $\mathbb{E}[X|\mathcal{G}]$, is the unique (up to almost sure equality) $\mathcal{G}$-measurable function satisfying
@@ -134,7 +156,10 @@ Most random variables encountered in the theory have the additional nice propert
 	This $f_X = \frac{dP_X}{d\lambda}$ is the \emph{probability density function} (pdf) of $X$.
 \end{proposition}
 
-\section{Inner Product Structure and Covariance}
+% \section{Inner Product Structure and Covariance}
+\subsection{Return Space and Covariance}
+
+The most important random variables of study are the returns of financial assets, portfolios, and trading strategies.
 
 \begin{definition}
 	The space $L^2(\Omega, \mathcal{F}, P)$ is a Hilbert space with inner product

@@ -55,20 +55,23 @@
         latex-utils.flakeModule
       ];
 
-      latex-utils.documents =
-        [
-          {
-            name = "eqi-notes.pdf";
+      latex-utils = {
+        documents =
+          [
+            {
+              name = "eqi-notes.pdf";
+              src = ./.;
+              inputFile = "main.tex";
+            }
+          ]
+          ++ builtins.map (x: {
+            name = "${inputs.nixpkgs.lib.removeSuffix ".tex" x}.pdf";
             src = ./.;
-            inputFile = "main.tex";
-          }
-        ]
-        ++ builtins.map (x: {
-          name = "${inputs.nixpkgs.lib.removeSuffix ".tex" x}.pdf";
-          src = ./.;
-          inputFile = "./hw/${x}";
-        }) (builtins.filter (x: inputs.nixpkgs.lib.hasSuffix ".tex" x) (builtins.attrNames (builtins.readDir ./hw)));
+            inputFile = "./hw/${x}";
+          }) (builtins.filter (x: inputs.nixpkgs.lib.hasSuffix ".tex" x) (builtins.attrNames (builtins.readDir ./hw)));
 
+        extraTexPackages = ["braket"];
+      };
       perSystem = {
         config,
         self',
