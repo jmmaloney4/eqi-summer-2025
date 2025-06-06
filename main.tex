@@ -46,6 +46,8 @@
 
 \maketitle
 
+\tableofcontents
+
 \section{Prerequisites and Return Space}
 
 \subsection{Probability Spaces and Measurable Functions}
@@ -114,7 +116,7 @@ It's often useful to go the other way, and define a random variable by it's dens
 
 \begin{definition}
 	The \emph{expectation} (or \emph{mean}) of a random variable $X$ is the Lebesgue integral
-	\begin{align}
+	\begin{align} \label{def:expectation}
 		\mathbb{E}[X]
 		 & := \int_\Omega X(\omega) \, dP(\omega)
 		= \int_{\mathbb{R}} x \, dX_*P(x)
@@ -124,7 +126,7 @@ It's often useful to go the other way, and define a random variable by it's dens
 \end{definition}
 
 \begin{remark}[Change of Variables Formula]
-	The equality above follows from the general change of variables formula. For measurable spaces $(X, \mathcal{A})$ and $(Y, \mathcal{B})$, a measure $\mu$ on $(X, \mathcal{A})$, a measurable function $f: X \to Y$, and a measurable function $g: Y \to \mathbb{R}$, we have
+	The equality in \eqref{def:expectation} follows from the general change of variables formula. For measurable spaces $(X, \mathcal{A})$ and $(Y, \mathcal{B})$, a measure $\mu$ on $(X, \mathcal{A})$, a measurable function $f: X \to Y$, and a measurable function $g: Y \to \mathbb{R}$, we have
 	\begin{align*}
 		\int_X (g \circ f) \, d\mu = \int_Y g \, d(f_*\mu).
 	\end{align*}
@@ -133,20 +135,67 @@ It's often useful to go the other way, and define a random variable by it's dens
 		X(\omega) = (\text{id} \circ X)(\omega) = \text{id}(X(\omega)),
 	\end{align*}
 	and therefore
-	\begin{align*}
-		\int_\Omega X(\omega) \, dP(\omega) = \int_\Omega (\text{id} \circ X)(\omega) \, dP(\omega) = \int_{\mathbb{R}} \text{id}(x) \, dX_*P(x) = \int_{\mathbb{R}} x \, dX_*P(x).
-	\end{align*}
+	\begin{align} \label{eq:change-of-variables}
+		\int_\Omega X(\omega) \, dP(\omega)
+		= \int_\Omega (\text{id} \circ X)(\omega) \, dP(\omega)
+		= \int_{\mathbb{R}} \text{id}(x) \, dX_*P(x)
+		= \int_{\mathbb{R}} x \, dX_*P(x).
+	\end{align}
 \end{remark}
 
-Another way of looking at the expectation is through the tail-sum or "layer cake" formula.
+Another way of looking at the expectation is through the tail-sum or "layer cake" formula. First, we need to define the CDF and the tail (function) of a random variable.
 
-\begin{theorem}[Tail-Sum Formula]
-	The expectation of a random variable $X$ can be expressed as
-	\[
-		\mathbb{E}[X] = \int_0^\infty P(X > x) \, dx.
-	\]
-\end{theorem}
+\begin{definition}
+	The \emph{cumulative distribution function} (CDF) of a random variable $X$ is the function $F_X: \mathbb{R} \to [0,1]$ defined by
+	\begin{align*}
+		F_X(x)
+		 & = P(X \leq x)                                                                                                                                           \\
+		 & = \int \mathbf{1}_{\Set{\omega \in \Omega | X(\omega) \leq x}}(\omega) \, dP(\omega)                                                                    \\
+		 & = \int \mathbf{1}_{(-\infty, x]} \circ X (\omega) \, dP(\omega)                                                                                         \\
+		 & = \int_{-\infty}^x dX_*P(x).                                                         &  & \text{by change of variables, \eqref{eq:change-of-variables}}
+	\end{align*}
+\end{definition}
 
+
+\begin{definition}
+	The \emph{tail} or \emph{survival function} of a random variable $X$ is the function $\bar{F}_X: \mathbb{R} \to [0,1]$ defined by
+	\begin{align*}
+		\bar{F}_X(x) = P(X > x) = \int_x^\infty dX_*P(x) = 1 - F_X(x).
+	\end{align*}
+\end{definition}
+
+\begin{proposition}[Tail-Sum Formula]
+	For a random variable $X$, the expectation can be expressed as
+	\begin{align*}
+		\mathbb{E}[X] = \int_0^\infty P(X > t) \, dt - \int_0^\infty P(X \leq -t) \, dt.
+	\end{align*}
+	In particular, if $X \geq 0$ almost surely, then
+	\begin{align*}
+		\mathbb{E}[X] = \int_0^\infty P(X > t) \, dt.
+	\end{align*}
+\end{proposition}
+
+\begin{proof}
+	We prove the non-negative case first. For $X \geq 0$, we use Fubini's theorem:
+	\begin{align*}
+		\mathbb{E}[X] & = \int_\Omega X(\omega) \, dP(\omega)                                                                             \\
+		              & = \int_\Omega \left( \int_0^{X(\omega)} dt \right) dP(\omega)                                                     \\
+		              & = \int_\Omega \int_0^\infty \mathbf{1}_{[0, X(\omega)]}(t) \, dt \, dP(\omega)                                    \\
+		              & = \int_0^\infty \int_\Omega \mathbf{1}_{[0, X(\omega)]}(t) \, dP(\omega) \, dt            &  & \text{(by Fubini)} \\
+		              & = \int_0^\infty \int_\Omega \mathbf{1}_{\{X(\omega) \geq t\}}(\omega) \, dP(\omega) \, dt                         \\
+		              & = \int_0^\infty P(X \geq t) \, dt.
+	\end{align*}
+	Note that $P(X \geq t) = P(X > t)$ when $X$ has a continuous distribution, so we often write the final result as $\int_0^\infty P(X > t) \, dt$.
+
+	For the general case, write $X = X^+ - X^-$ where $X^+ = \max(X, 0)$ and $X^- = \max(-X, 0)$. Then:
+	\begin{align*}
+		\mathbb{E}[X] & = \mathbb{E}[X^+] - \mathbb{E}[X^-]                                \\
+		              & = \int_0^\infty P(X^+ > t) \, dt - \int_0^\infty P(X^- > t) \, dt  \\
+		              & = \int_0^\infty P(X > t) \, dt - \int_0^\infty P(-X > t) \, dt     \\
+		              & = \int_0^\infty P(X > t) \, dt - \int_0^\infty P(X < -t) \, dt     \\
+		              & = \int_0^\infty P(X > t) \, dt - \int_0^\infty P(X \leq -t) \, dt.
+	\end{align*}
+\end{proof}
 
 
 \subsection{\(L^p\) Spaces and Moments}

@@ -10,5 +10,8 @@ result
 *.synctex*
 *.pdf
 *.bak*
+*.toc
+
+**/*.latex-build/
 
 .vscode/settings.json
