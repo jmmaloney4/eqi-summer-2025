@@ -197,18 +197,229 @@ Another way of looking at the expectation is through the tail-sum or "layer cake
 	\end{align*}
 \end{proof}
 
-
 \subsection{\(L^p\) Spaces and Moments}
 
 For many purposes, it's useful random variables via their relationship to other random variables within some structure. The most common of these structures is the \(L^p\) space.
 
 \begin{definition}
-	For $1 \leq p < \infty$, the space $L^p(\Omega, \mathcal{F}, P)$ consists of equivalence classes of measurable functions $X$ with finite $p$-th moment:
-	\[
+	For $1 \leq p < \infty$, the space $L^p(\Omega, \mathcal{F}, P)$ consists of equivalence classes of measurable functions $X$ with finite $p$-th moment (\(L^p\)-norm):
+	\begin{align*}
 		\|X\|_p := \left( \int_\Omega |X|^p \, dP \right)^{1/p} < \infty.
-	\]
+	\end{align*}
 \end{definition}
 
+As we alluded above, the \(L^p\) spaces are a family of spaces of random variables that are equipped with a norm.
+
+\begin{proposition}[Minkowski's Inequality]
+	Let $1 \leq p < \infty$. Then for any $X, Y \in L^p$,
+	\begin{align*}
+		\|X + Y\|_p \leq \|X\|_p + \|Y\|_p.
+	\end{align*}
+\end{proposition}
+
+\subsection{Hölder's Inequality (Interlude)}
+
+We now state and prove several central results in analysis, culminating in Hölder's inequality, a generalization of the triangle inequality for \(L^p\) spaces, which appears repeatedly in the theory.
+
+\begin{lemma}[Jensen's Inequality]
+	Let $f: (a,b) \to \mathbb{R}$ be a concave function on an interval $(a,b)$. For any $x_1, x_2 \in (a,b)$ and $\lambda \in [0,1]$,
+	\begin{align*}
+		f(\lambda x_1 + (1-\lambda) x_2) \geq \lambda f(x_1) + (1-\lambda) f(x_2).
+	\end{align*}
+	If $f$ is strictly concave, equality holds if and only if $x_1 = x_2$ or $\lambda \in \{0,1\}$.
+\end{lemma}
+
+\begin{proof}
+	By definition, $f$ is concave if its second derivative $f''(x) \leq 0$ on $(a,b)$. Let $x = \lambda x_1 + (1-\lambda) x_2$ and consider the function
+	\begin{align*}
+		g(t) = f(x + t) - f(x) - tf'(x)
+	\end{align*}
+	for $t$ such that $x + t \in (a,b)$. Then $g'(t) = f'(x + t) - f'(x)$ and $g''(t) = f''(x + t) \leq 0$, so $g'$ is decreasing. Since $g'(0) = 0$, we have $g'(t) \leq 0$ for $t \geq 0$ and $g'(t) \geq 0$ for $t \leq 0$. This means $g$ has a global maximum at $t = 0$, so $g(t) \leq g(0) = 0$ for all valid $t$.
+
+	Now, taking $t_1 = x_1 - x = (1-\lambda)(x_1 - x_2)$ and $t_2 = x_2 - x = -\lambda(x_1 - x_2)$:
+	\begin{align*}
+		f(x_1) - f(x) - (x_1 - x)f'(x) & \leq 0 \\
+		f(x_2) - f(x) - (x_2 - x)f'(x) & \leq 0
+	\end{align*}
+	Multiplying the first inequality by $\lambda$ and the second by $(1-\lambda)$, then adding:
+	\begin{align*}
+		\lambda f(x_1) + (1-\lambda) f(x_2) - f(x) - [\lambda(x_1 - x) + (1-\lambda)(x_2 - x)]f'(x) \leq 0
+	\end{align*}
+	Since $\lambda(x_1 - x) + (1-\lambda)(x_2 - x) = 0$, we get the desired inequality.
+\end{proof}
+
+\begin{lemma}[Young's Inequality]
+	Let $1 < p < \infty$ and $\frac{1}{p} + \frac{1}{q} = 1$. Then for any $a, b \geq 0$,
+	\begin{align*}
+		ab \leq \frac{a^p}{p} + \frac{b^q}{q}.
+	\end{align*}
+	Equality holds if and only if $a^p = b^q$.
+\end{lemma}
+
+\begin{proof}
+	If $a = 0$ or $b = 0$, the inequality is trivial. Assume $a, b > 0$. Taking logarithms, we need to show:
+	\begin{align*}
+		\log(a) + \log(b) \leq \log\left(\frac{a^p}{p} + \frac{b^q}{q}\right).
+	\end{align*}
+	Since $\log$ is concave and $\frac{1}{p} + \frac{1}{q} = 1$, by Jensen's inequality:
+	\begin{align*}
+		\frac{1}{p}\log(a^p) + \frac{1}{q}\log(b^q) & \leq \log\left(\frac{1}{p} \cdot a^p + \frac{1}{q} \cdot b^q\right) \\
+		                                            & = \log\left(\frac{a^p}{p} + \frac{b^q}{q}\right).
+	\end{align*}
+	But $\frac{1}{p}\log(a^p) + \frac{1}{q}\log(b^q) = \log(a) + \log(b)$, which gives the desired inequality.
+
+	For the equality condition, Jensen's inequality is an equality if and only if $a^p = b^q$.
+\end{proof}
+
+\begin{theorem}[Hölder's Inequality]
+	Let $1 \leq p, q \leq \infty$ with $\frac{1}{p} + \frac{1}{q} = 1$. Then for any $X \in L^p$ and $Y \in L^q$,
+	\begin{align*}
+		|\mathbb{E}[XY]| \leq \|X\|_p \|Y\|_q.
+	\end{align*}
+	Equivalently, $\|XY\|_1 \leq \|X\|_p \|Y\|_q$.
+\end{theorem}
+
+\begin{proof}
+	We may assume $\|X\|_p > 0$ and $\|Y\|_q > 0$ (otherwise the inequality is trivial). For the case $1 < p < \infty$, define normalized variables:
+	\begin{align*}
+		\tilde{X} = \frac{|X|}{\|X\|_p}, \quad \tilde{Y} = \frac{|Y|}{\|Y\|_q}.
+	\end{align*}
+	Then $\|\tilde{X}\|_p = \|\tilde{Y}\|_q = 1$. By Young's inequality, for $a, b \geq 0$:
+	\begin{align*}
+		ab \leq \frac{a^p}{p} + \frac{b^q}{q}.
+	\end{align*}
+	Applying this with $a = \tilde{X}(\omega)$ and $b = \tilde{Y}(\omega)$:
+	\begin{align*}
+		\tilde{X}(\omega) \tilde{Y}(\omega) \leq \frac{[\tilde{X}(\omega)]^p}{p} + \frac{[\tilde{Y}(\omega)]^q}{q}.
+	\end{align*}
+	Taking expectations:
+	\begin{align*}
+		\mathbb{E}[\tilde{X} \tilde{Y}] \leq \frac{1}{p}\mathbb{E}[\tilde{X}^p] + \frac{1}{q}\mathbb{E}[\tilde{Y}^q] = \frac{1}{p} + \frac{1}{q} = 1.
+	\end{align*}
+	Substituting back:
+	\begin{align*}
+		\mathbb{E}\left[\frac{|X|}{\|X\|_p} \cdot \frac{|Y|}{\|Y\|_q}\right] \leq 1,
+	\end{align*}
+	which gives
+	\begin{align*}
+		\mathbb{E}[|XY|] \leq \|X\|_p \|Y\|_q.
+	\end{align*}
+	Since $|\mathbb{E}[XY]| \leq \mathbb{E}[|XY|]$, the result follows.
+\end{proof}
+
+\begin{definition}[Conjugate Exponents]
+	Let $1 \leq p < \infty$. The \emph{conjugate exponent} of $p$ is the number $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$.
+\end{definition}
+
+\begin{definition}
+	The space \(L^\infty(\Omega, \mathcal{F}, P)\) consists of equivalence classes of measurable functions $X$ with finite essential (\(P\)-almost everywhere) supremum, otherwise known as the \(L^\infty\)-norm:
+	\begin{align*}
+		\|X\|_\infty := \inf \{C < \infty : |X| \leq C \text{ a.s.}\}.
+	\end{align*}
+\end{definition}
+
+In fact, by extending the definition of conjugate exponents to let $\infty$ be the conjugate of \(1\), it is easy to see that Hölder's inequality holds for all \(p, q \in [1, \infty]\).
+
+\begin{proposition}
+	Let \(P\) be a finite measure, i.e. \(P(\Omega) < \infty\). Then for \(1 \leq p < q < \infty\) and any $X \in L^p$,
+	\begin{align*}
+		\|X\|_q \leq \|X\|_p \cdot P(\Omega)^{(q-p)/(pq)}.
+	\end{align*}
+\end{proposition}
+
+\begin{proof}
+	Write $|X|^p = |X|^p \cdot \mathbf{1}$ and apply Hölder's inequality with conjugate exponents $r = \frac{q}{p} > 1$ and $s = \frac{q}{q-p}$. Note that $\frac{1}{r} + \frac{1}{s} = \frac{p}{q} + \frac{q-p}{q} = 1$.
+
+	Then:
+	\begin{align*}
+		\mathbb{E}[|X|^p] & = \mathbb{E}[|X|^p \cdot \mathbf{1}]                               \\
+		                  & \leq (\mathbb{E}[|X|^{pr}])^{1/r} (\mathbb{E}[\mathbf{1}^s])^{1/s} \\
+		                  & = (\mathbb{E}[|X|^q])^{p/q} \cdot P(\Omega)^{(q-p)/q}.
+	\end{align*}
+
+	Rearranging:
+	\begin{align*}
+		(\mathbb{E}[|X|^q])^{p/q} \geq \frac{\mathbb{E}[|X|^p]}{P(\Omega)^{(q-p)/q}}.
+	\end{align*}
+
+	Taking the $(q/p)$-th power:
+	\begin{align*}
+		\mathbb{E}[|X|^q] \leq \left(\mathbb{E}[|X|^p]\right)^{q/p} \cdot P(\Omega)^{(q-p)/p}.
+	\end{align*}
+
+	Taking the $q$-th root:
+	\begin{align*}
+		\|X\|_q = (\mathbb{E}[|X|^q])^{1/q} \leq \left(\mathbb{E}[|X|^p]\right)^{1/p} \cdot P(\Omega)^{(q-p)/(pq)} = \|X\|_p \cdot P(\Omega)^{(q-p)/(pq)}.
+	\end{align*}
+\end{proof}
+
+\begin{corollary}[Containment of \(L^p\) Spaces]
+	Let \(P\) be a finite measure. Then for \(1 \leq p < q \leq \infty\),
+	\begin{align*}
+		L^p \subseteq L^q.
+	\end{align*}
+\end{corollary}
+
+\subsection{Centered Random Variables, \(L^p_0\)}
+
+Often, in probability theory, we are interested in centered moments. To study these formally, it we introduce the space of centered random variables, \(L^p_0\).
+
+\begin{definition}
+	The space \(L^p_0(\Omega, \mathcal{F}, P)\) consists of equivalence classes of measurable functions $X$ with finite $p$-th moment and zero expectation:
+	\begin{align*}
+		\|X\|_p := \left( \int_\Omega |X|^p \, dP \right)^{1/p} < \infty \quad \text{and} \quad \mathbb{E}[X] = 0.
+	\end{align*}
+\end{definition}
+
+\begin{proposition}[Direct Sum Decomposition of $L^p$]
+	The space $L^p(\Omega, \mathcal{F}, P)$ admits the direct sum decomposition
+	\begin{align*}
+		L^p(\Omega, \mathcal{F}, P) = L^p_0(\Omega, \mathcal{F}, P) \oplus \mathbf{1},
+	\end{align*}
+	where $\mathbf{1}$ denotes the space of constant functions. Every $X \in L^p$ can be uniquely written as
+	\begin{align*}
+		X = (X - \mathbb{E}[X]) + \mathbb{E}[X] \cdot \mathbf{1},
+	\end{align*}
+	where $X - \mathbb{E}[X] \in L^p_0$ and $\mathbb{E}[X] \cdot \mathbf{1}$ is constant.
+\end{proposition}
+
+\begin{remark}
+	When $p = 2$, the space $L^2$ is a Hilbert space with inner product $\langle X, Y \rangle = \mathbb{E}[XY]$, and $L^2_0$ is indeed the orthogonal complement of $\text{span}\{\mathbf{1}\}$ since $\langle X, \mathbf{1} \rangle = \mathbb{E}[X] = 0$ for all $X \in L^2_0$. For $p \neq 2$, we cannot speak of orthogonal complements as $L^p$ lacks a canonical inner product structure.
+\end{remark}
+
+\begin{lemma}[$L^p_0$ is Closed]
+	The subspace $L^p_0(\Omega, \mathcal{F}, P)$ is closed in the $L^p$ norm topology.
+\end{lemma}
+
+\begin{proof}
+	Let $\{X_n\}$ be a sequence in $L^p_0$ such that $X_n \to X$ in $L^p$ norm. We need to show $\mathbb{E}[X] = 0$. By Hölder's inequality with $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$:
+	\begin{align*}
+		|\mathbb{E}[X] - \mathbb{E}[X_n]| = |\mathbb{E}[X - X_n]| \leq \|X - X_n\|_p \|\mathbf{1}\|_q = \|X - X_n\|_p \cdot P(\Omega)^{1/q}.
+	\end{align*}
+	Since $P(\Omega) = 1$ and $\mathbb{E}[X_n] = 0$ for all $n$, taking $n \to \infty$ gives $\mathbb{E}[X] = 0$.
+\end{proof}
+
+\begin{remark}[Projection Operator Perspective]
+	The decomposition can also be understood through the expectation operator $E: L^p \to \text{span}\{\mathbf{1}\}$ defined by $E(X) = \mathbb{E}[X] \cdot \mathbf{1}$. This is a bounded linear projection operator with $\ker(E) = L^p_0$ and $\text{range}(E) = \text{span}\{\mathbf{1}\}$. The centering operator $X \mapsto X - \mathbb{E}[X]$ is the complementary projection onto $L^p_0$.
+\end{remark}
+
+\begin{remark}[Topological Direct Sum]
+	Since $L^p$ is a Banach space and $L^p_0$ is a closed subspace, the decomposition $L^p = L^p_0 \oplus \text{span}\{\mathbf{1}\}$ is a \emph{topological direct sum}. This means:
+	\begin{enumerate}[label=(\roman*)]
+		\item The sum is closed: $L^p_0 + \text{span}\{\mathbf{1}\} = L^p$ is closed.
+		\item The intersection is trivial: $L^p_0 \cap \text{span}\{\mathbf{1}\} = \{0\}$.
+		\item The projection operators are bounded (continuous).
+	\end{enumerate}
+	Moreover, the projection norms satisfy $\|E\|_{\text{op}} = 1$ and $\|I - E\|_{\text{op}} = 1$ where $I$ is the identity operator.
+\end{remark}
+
+\begin{remark}[Annihilator and Dual Perspective]
+	For $1 < p < \infty$, the dual space $(L^p)^* \cong L^q$ where $\frac{1}{p} + \frac{1}{q} = 1$. Each $Y \in L^q$ defines a continuous linear functional $\phi_Y: L^p \to \mathbb{R}$ by $\phi_Y(X) = \mathbb{E}[XY]$. The annihilator of $L^p_0$ in $L^q$ is
+	\begin{align*}
+		(L^p_0)^\perp = \{Y \in L^q : \mathbb{E}[XY] = 0 \text{ for all } X \in L^p_0\}.
+	\end{align*}
+	Since any $X \in L^p_0$ has $\mathbb{E}[X] = 0$, we can show that $(L^p_0)^\perp = \text{span}\{\mathbf{1}\} \cap L^q$, which is exactly the space of constant functions in $L^q$. This duality relationship provides another characterization of the decomposition.
+\end{remark}
 
 
 % Todo:
