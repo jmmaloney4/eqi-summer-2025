@@ -89,15 +89,26 @@ What makes random variables useful is that they allow us to move from studying t
 	\end{align*}
 \end{definition}
 
+\begin{example}
+	Define a random variable \(Y: \Omega \rightarrow \mathbb{R}\) representing the price of a particular security at market close on a given day.
+	Then the distribution of \(Y\), \(Y_{*}P (E) := P \left( Y^{-1}(E) \right)\), is a probability measure on \(\mathbb{R}\) that describes the probability that the security closes at a particular price.
+\end{example}
+
 Most random variables encountered in practice have a distribution with the additional nice property of being represented by a density function.
 
 \begin{definition}
-	If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{partial distribution function} or \emph{density function} (unique up to Lebesgue-null sets)
+	If a random variable is absolutely continuous with respect to Lebesgue measure, i.e. \(X_{*}P \ll \lambda\), then we say the random variable has a \emph{probability density function} (unique up to Lebesgue-null sets)
 	\begin{align*}
-		\mu_{X} = \frac{d X_{*}P}{d\lambda},
+		f_X = \frac{d X_{*}P}{dx},
 	\end{align*}
 	the Radon-Nikodym derivative of the distribution with respect to Lebesgue measure.
 \end{definition}
+
+It's often useful to go the other way, and define a random variable by it's density function. Given \(f_X: \mathbb{R} \rightarrow \mathbb{R}\), we can define probability measure \(X_{*}P\) by
+
+\begin{align*}
+	X_{*}P (E) := \int_E f_X(x) \, dx \quad \text{for } E \in \mathcal{B}(\mathbb{R}).
+\end{align*}
 
 \subsection{Integration and Expectation}
 
@@ -105,11 +116,51 @@ Most random variables encountered in practice have a distribution with the addit
 	The \emph{expectation} (or \emph{mean}) of a random variable $X$ is the Lebesgue integral
 	\begin{align}
 		\mathbb{E}[X]
-		 & := \int_\Omega X(\omega) \, dP(\omega) \quad \text{for } \omega \in \Omega \nonumber \\
-		 & = \int_{\mathbb{R}} x \, dX_*P(dx).
+		 & := \int_\Omega X(\omega) \, dP(\omega)
+		= \int_{\mathbb{R}} x \, dX_*P(x)
+		= \int_{\mathbb{R}} x \, f_X(x) dx.
 	\end{align}
-	provided the integral exists in the extended real line.
+	provided the integral exists in the extended real line $\overline{\mathbb{R}} := \mathbb{R} \cup \Set{\pm \infty}$.
 \end{definition}
+
+\begin{remark}[Change of Variables Formula]
+	The equality above follows from the general change of variables formula. For measurable spaces $(X, \mathcal{A})$ and $(Y, \mathcal{B})$, a measure $\mu$ on $(X, \mathcal{A})$, a measurable function $f: X \to Y$, and a measurable function $g: Y \to \mathbb{R}$, we have
+	\begin{align*}
+		\int_X (g \circ f) \, d\mu = \int_Y g \, d(f_*\mu).
+	\end{align*}
+	In our case, taking $f = X: \Omega \to \mathbb{R}$ and $g = \text{id}: \mathbb{R} \to \mathbb{R}$ where $\text{id}(x) = x$, we get
+	\begin{align*}
+		X(\omega) = (\text{id} \circ X)(\omega) = \text{id}(X(\omega)),
+	\end{align*}
+	and therefore
+	\begin{align*}
+		\int_\Omega X(\omega) \, dP(\omega) = \int_\Omega (\text{id} \circ X)(\omega) \, dP(\omega) = \int_{\mathbb{R}} \text{id}(x) \, dX_*P(x) = \int_{\mathbb{R}} x \, dX_*P(x).
+	\end{align*}
+\end{remark}
+
+Another way of looking at the expectation is through the tail-sum or "layer cake" formula.
+
+\begin{theorem}[Tail-Sum Formula]
+	The expectation of a random variable $X$ can be expressed as
+	\[
+		\mathbb{E}[X] = \int_0^\infty P(X > x) \, dx.
+	\]
+\end{theorem}
+
+
+
+\subsection{\(L^p\) Spaces and Moments}
+
+For many purposes, it's useful random variables via their relationship to other random variables within some structure. The most common of these structures is the \(L^p\) space.
+
+\begin{definition}
+	For $1 \leq p < \infty$, the space $L^p(\Omega, \mathcal{F}, P)$ consists of equivalence classes of measurable functions $X$ with finite $p$-th moment:
+	\[
+		\|X\|_p := \left( \int_\Omega |X|^p \, dP \right)^{1/p} < \infty.
+	\]
+\end{definition}
+
+
 
 % Todo:
 sigma algebras represent information or knowledge of information.
@@ -175,7 +226,7 @@ The most important random variables of study are the returns of financial assets
 	\]
 \end{definition}
 
-\section{Moments and Generating Functions}
+\section{Moments, Generating Functions, and \(L^2_0\)}
 
 \begin{definition}
 	The \emph{$n$-th moment} of a random variable $X$ is $\mathbb{E}[X^n]$, provided the expectation exists.
