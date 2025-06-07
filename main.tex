@@ -122,7 +122,7 @@ It's often useful to go the other way, and define a random variable by it's dens
 		= \int_{\mathbb{R}} x \, dX_*P(x)
 		= \int_{\mathbb{R}} x \, f_X(x) dx.
 	\end{align}
-	provided the integral exists in the extended real line $\overline{\mathbb{R}} := \mathbb{R} \cup \Set{\pm \infty}$.
+	provided the integral exists in the extended real line $\overline{\mathbb{R}} := \mathbb{R} \cup \Set{\pm \infty}$. (The last equality is of course only valid in the case that \(f_X\) exists.)
 \end{definition}
 
 \begin{remark}[Change of Variables Formula]
@@ -308,17 +308,24 @@ We now state and prove several central results in analysis, culminating in Höld
 \end{proof}
 
 \begin{definition}[Conjugate Exponents]
-	Let $1 \leq p < \infty$. The \emph{conjugate exponent} of $p$ is the number $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$.
+	Let $1 \leq p < \infty$. The \emph{conjugate exponent} of $p$ is the number $q$ such that $\frac{1}{p} + \frac{1}{q} = 1$, namely $q = \frac{p}{p-1}$.
 \end{definition}
 
 \begin{definition}
-	The space \(L^\infty(\Omega, \mathcal{F}, P)\) consists of equivalence classes of measurable functions $X$ with finite essential (\(P\)-almost everywhere) supremum, otherwise known as the \(L^\infty\)-norm:
+	The space \(L^\infty(\Omega, \mathcal{F}, P)\) consists of equivalence classes of \(P\)-almost everywhere equal measurable functions $X$ with finite essential (\(P\)-almost everywhere) supremum, otherwise known as the \(L^\infty\)-norm:
 	\begin{align*}
 		\|X\|_\infty := \inf \{C < \infty : |X| \leq C \text{ a.s.}\}.
 	\end{align*}
 \end{definition}
 
 In fact, by extending the definition of conjugate exponents to let $\infty$ be the conjugate of \(1\), it is easy to see that Hölder's inequality holds for all \(p, q \in [1, \infty]\).
+
+Finally, because we are in a probability space, there are some nice inequalities between the \(L^p\) norms. This works because there are essentially two ways a function can fail to be in \(L^p\):
+\begin{enumerate}
+	\item It has spikes that grow too quickly. The larger \(p\) grows, the more sensitive the \(L^p\) norm is to these spikes. We say functions in \(L^{q}\) spaces are \emph{more smooth} than functions in \(L^{p}\) when \(q > p\).
+	\item It's tails are too large. The smaller \(p\) is, the more sensitive the \(L^p\) norm is to the tails of a function. We say functions in \(L^{q}\) \emph{show more decay} than functions in \(L^{p}\) when \(q < p\).
+\end{enumerate}
+However, because the measure space is finite, the second case cannot happen. The tails can never decay too slowly that \(\|X\|_p\) is infinite. It's easy to see this because the constant function \(\mathbf{1}\) is in \(L^p\) for any \(p\).
 
 \begin{proposition}
 	Let \(P\) be a finite measure, i.e. \(P(\Omega) < \infty\). Then for \(1 \leq p < q < \infty\) and any $X \in L^p$,
@@ -353,6 +360,8 @@ In fact, by extending the definition of conjugate exponents to let $\infty$ be t
 	\end{align*}
 \end{proof}
 
+For probability measures, \(P(\Omega) = 1\), so the inequality simplifies to \(\|X\|_q \leq \|X\|_p\) for \(1 \leq p \leq q \leq \infty\).
+
 \begin{corollary}[Containment of \(L^p\) Spaces]
 	Let \(P\) be a finite measure. Then for \(1 \leq p < q \leq \infty\),
 	\begin{align*}
@@ -374,17 +383,17 @@ Often, in probability theory, we are interested in centered moments. To study th
 \begin{proposition}[Direct Sum Decomposition of $L^p$]
 	The space $L^p(\Omega, \mathcal{F}, P)$ admits the direct sum decomposition
 	\begin{align*}
-		L^p(\Omega, \mathcal{F}, P) = L^p_0(\Omega, \mathcal{F}, P) \oplus \mathbf{1},
+		L^p(\Omega, \mathcal{F}, P) = L^p_0(\Omega, \mathcal{F}, P) \oplus \mathbb{R}.
 	\end{align*}
-	where $\mathbf{1}$ denotes the space of constant functions. Every $X \in L^p$ can be uniquely written as
+	Every \(X \in L^p\) can be uniquely written as
 	\begin{align*}
-		X = (X - \mathbb{E}[X]) + \mathbb{E}[X] \cdot \mathbf{1},
+		X = (X - \mathbb{E}[X]) + \mathbb{E}[X],
 	\end{align*}
-	where $X - \mathbb{E}[X] \in L^p_0$ and $\mathbb{E}[X] \cdot \mathbf{1}$ is constant.
+	where \(X - \mathbb{E}[X] \in L^p_0\) and \(\mathbb{E}[X]\) is a constant.
 \end{proposition}
 
 \begin{remark}
-	When $p = 2$, the space $L^2$ is a Hilbert space with inner product $\langle X, Y \rangle = \mathbb{E}[XY]$, and $L^2_0$ is indeed the orthogonal complement of $\text{span}\{\mathbf{1}\}$ since $\langle X, \mathbf{1} \rangle = \mathbb{E}[X] = 0$ for all $X \in L^2_0$. For $p \neq 2$, we cannot speak of orthogonal complements as $L^p$ lacks a canonical inner product structure.
+	When $p = 2$, the space $L^2$ is a Hilbert space with inner product $\langle X, Y \rangle = \mathbb{E}[XY]$, and $L^2_0$ is indeed the orthogonal complement of \(\mathbb{R}\) since \(\langle X, \mathbf{1} \rangle = \mathbb{E}[X] = 0\) for all \(X \in L^2_0\). For \(p \neq 2\), we cannot speak of orthogonal complements as \(L^p\) lacks a canonical inner product structure.
 \end{remark}
 
 \begin{lemma}[$L^p_0$ is Closed]
@@ -400,14 +409,14 @@ Often, in probability theory, we are interested in centered moments. To study th
 \end{proof}
 
 \begin{remark}[Projection Operator Perspective]
-	The decomposition can also be understood through the expectation operator $E: L^p \to \text{span}\{\mathbf{1}\}$ defined by $E(X) = \mathbb{E}[X] \cdot \mathbf{1}$. This is a bounded linear projection operator with $\ker(E) = L^p_0$ and $\text{range}(E) = \text{span}\{\mathbf{1}\}$. The centering operator $X \mapsto X - \mathbb{E}[X]$ is the complementary projection onto $L^p_0$.
+	The decomposition can also be understood by noticing that the expectation operator \(\mathbb{E}: L^p \to \mathbb{R}\) is a bounded linear projection operator with \(\ker(\mathbb{E}) = L^p_0\) and \(\text{range}(\mathbb{E}) = \mathbb{R}\). The centering operator \(X \mapsto X - \mathbb{E}[X]\) is the complementary projection onto \(L^p_0\).
 \end{remark}
 
 \begin{remark}[Topological Direct Sum]
-	Since $L^p$ is a Banach space and $L^p_0$ is a closed subspace, the decomposition $L^p = L^p_0 \oplus \text{span}\{\mathbf{1}\}$ is a \emph{topological direct sum}. This means:
+	Since \(L^p\) is a Banach space and \(L^p_0\) is a closed subspace, the decomposition \(L^p = L^p_0 \oplus \mathbb{R}\) is a \emph{topological direct sum}. This means:
 	\begin{enumerate}[label=(\roman*)]
-		\item The sum is closed: $L^p_0 + \text{span}\{\mathbf{1}\} = L^p$ is closed.
-		\item The intersection is trivial: $L^p_0 \cap \text{span}\{\mathbf{1}\} = \{0\}$.
+		\item The sum is closed: \(L^p_0 + \mathbb{R} = L^p\) is closed.
+		\item The intersection is trivial: \(L^p_0 \cap \mathbb{R} = \{0\}\).
 		\item The projection operators are bounded (continuous).
 	\end{enumerate}
 	Moreover, the projection norms satisfy $\|E\|_{\text{op}} = 1$ and $\|I - E\|_{\text{op}} = 1$ where $I$ is the identity operator.
